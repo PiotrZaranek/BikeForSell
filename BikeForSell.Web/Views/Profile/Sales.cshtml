@@ -1,0 +1,77 @@
+﻿@model BikeForSell.Application.ViewModels.ProfileVm.ListSaleForListVm
+
+@{
+    ViewData["Title"] = "Twoje Sprzedaże";
+}
+
+<div class="row">
+
+    <div class="col-lg-12 text-end">
+        <a asp-action="Index" class="btn btn-lg btn-dark">Wróć</a>
+    </div>
+
+    <div class="col-lg-12">
+        <h1 class="text-center">Twoje Sprzedaże</h1>
+    </div>
+
+    @if (Model.Size == 0)
+    {
+        <p class="display-6 text-center text-secondary">
+            Brak Sprzedaży...
+        </p>
+        <div class="mt-2 text-center">
+            <a asp-controller="Bike" asp-action="Add" class="btn btn-lg btn-success">Dodaj Ogłoszenie</a>
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model.Sales)
+        {
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="col-lg-6 shadow mt-4 p-4 rounded">
+                    @*<div>
+                        @Html.DisplayFor(modelItem => item.BuyerId) Chce kupić twój rower! // Dane kupującego!!!
+                    </div>*@
+                    @if(item.State != 0)
+                    {
+                        <div class="text-end">
+                            <a class="btn btn-close" asp-action="DeleteSale" asp-route-id="@item.Id"></a>
+                        </div>   
+                    }                    
+                    <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.Prize)zł</h5>
+                    Zakupiono:
+                    <b>
+                        @Html.DisplayFor(modelItem => item.Date.Day) /
+                        @Html.DisplayFor(modelItem => item.Date.Month) /
+                        @Html.DisplayFor(modelItem => item.Date.Year)
+                    </b>
+                    @if(item.State == 0)
+                    {
+                        <div class="text-end">
+                            <a class="btn btn-success" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="1">Zatwierdź</a>
+                            <a class="btn btn-danger" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="2">Odmów</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <br />
+                        <span>Sprzdaż: </span>
+                        @if (item.State == 1)
+                        {                         
+                            <span class="text-success fw-bold">Zatwierdzona</span>
+                        }
+                        else
+                        {                          
+                            <span class="text-danger fw-bold">Odrzucona</span>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+
+

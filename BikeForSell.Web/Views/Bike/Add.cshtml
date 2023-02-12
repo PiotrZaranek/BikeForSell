@@ -1,0 +1,165 @@
+﻿@model BikeForSell.Application.ViewModels.BikeVm.NewBikeVm
+
+@{
+    ViewData["Title"] = "Nowe Ogłoszenie";
+}
+
+<style>
+    .chckbox-delivery
+    {        
+        font-size: 20px;
+        padding-top: 5px;
+    }
+</style>
+
+<div class="text-end">
+    <a asp-controller="Profile" asp-action="Index" class="btn btn-lg btn-dark">Wróć</a>
+</div>
+
+<h1 class="text-center mb-4">Nowe Ogłoszenie</h1>
+
+<div class="row justify-content-center">
+    <div>
+        <form asp-action="Add" method="post">
+            <div class="row p-3 shadow rounded mb-4">
+                <h3 class="text-center">Ogólne</h3>
+                <hr />
+                <div class="col-lg-4 mb-2">
+                    <input asp-for="@Model.Name" class="form-control" placeholder="Nazwa" />
+                </div>
+                <div class="col-lg-4">
+                    <input asp-for="@Model.DetailInformation.Prize" class="form-control" placeholder="Cena" />
+                </div>
+                <div class="col-lg-4">
+                    <select asp-for="@Model.Type" class="form-control form-control">
+                    <option>XC</option>
+                    <option>Trail</option>
+                    <option>Enduro</option>
+                    <option>DownHill</option>
+                    <option>Szosowy</option>
+                    <option>Gravel</option>
+                    <option>Fitness</option>
+                    <option>Przełaj</option>
+                    <option>Triathlon</option>
+                    <option>Trekking</option>
+                    <option>Cross</option>
+                    <option>Miejski</option>
+                    <option>FatBike</option>
+                    <option>BMX</option>
+                    <option>Dirt/Street</option>
+                    <option>Trial</option>
+                </select>
+                </div>
+                <div class="col-lg-4">
+                    <input asp-for="@Model.Size" class="form-control" placeholder="Rozmiar" />
+                </div>
+                <div class="col-lg-4">
+                    <input asp-for="@Model.DetailInformation.City" class="form-control" placeholder="Miasto" />
+                </div>
+                <div class="col-lg-4 chckbox-delivery text-center">
+                    Wysyłka: <input type="checkbox" asp-for="@Model.DetailInformation.Delivery" />
+                </div>
+
+                <h4 class="text-center mb-3">Opis</h4>
+                <textarea class="form-control" style="resize: none;" asp-for="@Model.Description" rows="7"></textarea>
+                
+            </div>
+
+            <div class="row p-3 shadow rounded mb-4">
+                <h3 class="text-center">Rama</h3>
+                <hr />
+                <div class="col-lg-6 mb-2">
+                    <select asp-for="@Model.Frame.Type" class="form-control">
+                        <option>Karbonowa</option>
+                        <option>Aluminiowa</option>
+                        <option>Aluminiowao-Karbonowa</option>
+                        <option>Stalowa</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Frame.Fork" class="form-control" placeholder="Widelec" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <select asp-for="@Model.Frame.ForkType" class="form-control">
+                        <option>Karbonowy</option>
+                        <option>Aluminiowy</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Frame.Stem" class="form-control" placeholder="Mostek" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Frame.Handlebar" class="form-control" placeholder="Kierownica" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Frame.Saddle" class="form-control" placeholder="Siodełko" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Frame.Seatpost" class="form-control" placeholder="Sztyca" />
+                </div>
+            </div>
+
+            <div class="row p-3 shadow rounded mb-4">
+                <h3 class="text-center">Napęd</h3>
+                <hr />
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Drive.RearDerailleur" class="form-control" placeholder="Przerzutka Tylna" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Drive.Cassette" class="form-control" placeholder="Kaseta/Wolnobieg" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Drive.Chain" class="form-control" placeholder="Łańcuch" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Drive.FrontDerailleur" class="form-control" placeholder="Przerzutka Przednia" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Drive.CrankSet" class="form-control" placeholder="Korba" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Drive.Shifter" class="form-control" placeholder="Manetki" />
+                </div>
+            </div>
+
+            <div class="row p-3 shadow rounded mb-4">
+                <h3 class="text-center">Hamulce</h3>
+                <hr />
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Brake.FrontBrake" class="form-control" placeholder="Hamulec Przedni" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Brake.RearBrake" class="form-control" placeholder="Hamulec Tylny" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <select asp-for="@Model.Brake.Type" class="form-control">
+                        <option>Mechaniczne</option>
+                        <option>Hydrauliczne</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row p-3 shadow rounded mb-4">
+                <h3 class="text-center">Koła</h3>
+                <hr />
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Wheel.Name" class="form-control" placeholder="Nazwa Kół" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Wheel.Hub" class="form-control" placeholder="Piasty" />
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <input asp-for="@Model.Wheel.Tyres" class="form-control" placeholder="Opony" />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="@Model.Wheel.Size" class="form-control" placeholder="Rozmiar" />
+                </div>
+            </div>
+            <input type="submit" value="Dodaj Ogłoszenie" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Profil";
+}
+
+<style>
+    .profileImage
+    {
+        width: 50%;        
+        border-radius: 100%;
+    }
+</style>
+
+<div class="row justify-content-center">    
+    <div class="col-lg-4 text-center">
+        <img src="image/userImg.png" alt="User Image" class="profileImage shadow"/>
+        <hr />
+        <a asp-controller="Profile" asp-action="Edit" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+            Edytuj Profil
+        </a>
+        <a asp-action="Purchase" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+            Twoje Zakupy
+        </a>
+        <a asp-action="Sales" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+            Twoje Sprzedaże
+        </a>
+        <hr />
+        <a asp-controller="Bike" asp-action="Add" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+            Dodaj Ogłoszenie
+        </a>
+        <a asp-controller="Bike" asp-action="YourBikes" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+            Twoje Ogłoszenia
+        </a>
+        <a asp-area="" asp-page="" class="col-lg-12 btn btn-lg btn-danger p-2 mb-3">
+            Wyloguj się
+        </a>
+    </div>
+</div>
+

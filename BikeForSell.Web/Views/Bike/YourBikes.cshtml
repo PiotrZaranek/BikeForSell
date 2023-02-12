@@ -1,0 +1,47 @@
+﻿@model BikeForSell.Application.ViewModels.BikeVm.ListBiekForYourBikes
+
+@{
+    ViewData["Title"] = "Twoje Ogłoszenia";    
+}
+
+<div class="col-lg-12 text-end">
+    <a asp-controller="Profile" asp-action="Index" class="btn btn-lg btn-dark">Wróć</a>
+</div>
+
+<h1 class="text-center mb-4">Twoje Ogłoszenia</h1>
+
+<div class="row justify-content-center">
+    @if(Model.Size == 0)
+    {
+        <p class="text-center display-6 text-secondary">
+            Nie Dodałeś Jeszcze Ogłoszeń...
+        </p>
+    }
+    else
+    {
+        @foreach (var item in Model.Bikes)
+        {
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="col-lg-6 shadow rounded mb-4 p-4">
+                    <div class="col-lg-12 mb-3">
+                        <h3>@Html.DisplayFor(model => item.Name)</h3>
+                        <hr />
+                        Aktywne: @Html.DisplayFor(model => item.IsActive)
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-primary">Szczegóły</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-success">Edytuj</a>
+                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-primary mt-3">Zmień status</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-danger mt-3">Usuń</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }    
+
+    <div class="mt-3 text-center">
+        <a asp-action="Add" class="btn btn-lg btn-success">Dodaj Ogłoszenie</a>
+    </div>
+
+</div>
+ 

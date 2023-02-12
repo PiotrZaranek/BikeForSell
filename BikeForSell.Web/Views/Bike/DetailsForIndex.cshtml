@@ -1,0 +1,133 @@
+﻿@model BikeForSell.Application.ViewModels.BikeVm.BikeForDetailsVm
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="text-end">
+    @if (Model.DetailInformation.UserRef == 1) // W miejscu jedynki będzie user Id!
+    {
+        <a asp-action="YourBikes" class="btn btn-lg btn-primary">Twoje Ogłoszenia</a>
+    }
+    <a asp-action="Index" class="btn btn-lg btn-dark">Wróć</a>
+</div>
+
+<h1 class="text-center mb-4">@Html.DisplayFor(model => model.Name)</h1>
+
+@if (Model.DetailInformation.UserRef != 1) // W miejscu jedynki będzie user Id!
+{
+    <div class="mb-4">
+        <a asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-lg btn-success">Kup za @Html.DisplayFor(model => model.DetailInformation.Prize)zł</a>
+    </div>
+}
+
+<div>
+    <div class="row p-3 shadow rounded mb-4">
+        <h3 class="text-center">Ogólne</h3>
+        <hr />
+        <div class="col-lg-6">
+            <p>
+                Rozmiar: <b>@Html.DisplayFor(model => model.Size)</b><br />
+                Rodzaj: <b>@Html.DisplayFor(model => model.Type)</b><br />
+                Cena: <b>@Html.DisplayFor(model => model.DetailInformation.Prize)zł</b><br />
+                Wysyłka: @Html.DisplayFor(model => model.DetailInformation.Delivery)<br />
+                Data: <b>
+                    @Html.DisplayFor(model => model.DetailInformation.Date.Day) /
+                    @Html.DisplayFor(model => model.DetailInformation.Date.Month) /
+                    @Html.DisplayFor(model => model.DetailInformation.Date.Year)
+                </b>
+            </p>
+        </div>
+        <div class="col-lg-6 text-end">
+            <h5>Sprzedający</h5>
+            @Html.DisplayFor(model => model.DetailInformation.NameSalesman)
+            @Html.DisplayFor(model => model.DetailInformation.LastNameSalesman) <br />
+            @Html.DisplayFor(model => model.DetailInformation.City)
+        </div>
+        <div class="col-lg-12">
+            <h5>Opis</h5>
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    </div>
+
+    <div class="row p-3 shadow rounded mb-4">
+        <h3 class="text-center">Rama</h3>
+        <hr />
+        <div class="col-lg-6 mb-2">
+            Typ: <b>@Html.DisplayFor(model => model.Frame.Type)</b>
+        </div>
+        <div class="col-lg-6">
+            Widelec: <b>@Html.DisplayFor(model => model.Frame.Fork)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Typ widelca: <b>@Html.DisplayFor(model => model.Frame.ForkType)</b>
+        </div>
+        <div class="col-lg-6">
+            Mostek: <b>@Html.DisplayFor(model => model.Frame.Stem)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Kierownica: <b>@Html.DisplayFor(model => model.Frame.Handlebar)</b>
+        </div>
+        <div class="col-lg-6">
+            Siodełko: <b>@Html.DisplayFor(model => model.Frame.Saddle)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Sztyca: <b>@Html.DisplayFor(model => model.Frame.Seatpost)</b>
+        </div>
+    </div>
+
+    <div class="row p-3 shadow rounded mb-4">
+        <h3 class="text-center">Napęd</h3>
+        <hr />
+        <div class="col-lg-6 mb-2">
+            Przerzutka tylna: <b>@Html.DisplayFor(model => model.Drive.RearDerailleur)</b>
+        </div>
+        <div class="col-lg-6">
+            Kaseta: <b>@Html.DisplayFor(model => model.Drive.Cassette)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Łańcuch: <b>@Html.DisplayFor(model => model.Drive.Chain)</b>
+        </div>
+        <div class="col-lg-6">
+            Przerzutka przednia: <b>@Html.DisplayFor(model => model.Drive.FrontDerailleur)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Korba: <b>@Html.DisplayFor(model => model.Drive.CrankSet)</b>
+        </div>
+        <div class="col-lg-6">
+            Manetki: <b>@Html.DisplayFor(model => model.Drive.Shifter)</b>
+        </div>
+    </div>
+
+    <div class="row p-3 shadow rounded mb-4">
+        <h3 class="text-center">Hamulce</h3>
+        <hr />
+        <div class="col-lg-6 mb-2">
+            Przedni: <b>@Html.DisplayFor(model => model.Brake.FrontBrake)</b>
+        </div>
+        <div class="col-lg-6">
+            Tylny: <b>@Html.DisplayFor(model => model.Brake.RearBrake)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Typ: <b>@Html.DisplayFor(model => model.Brake.Type)</b>
+        </div>
+    </div>
+
+    <div class="row p-3 shadow rounded mb-4">
+        <h3 class="text-center">Koła</h3>
+        <hr />
+        <div class="col-lg-6 mb-2">
+            Nazwa: <b>@Html.DisplayFor(model => model.Wheel.Name)</b>
+        </div>
+        <div class="col-lg-6">
+            Piasta: <b>@Html.DisplayFor(model => model.Wheel.Hub)</b>
+        </div>
+        <div class="col-lg-6 mb-2">
+            Opony: <b>@Html.DisplayFor(model => model.Wheel.Tyres)</b>
+        </div>
+        <div class="col-lg-6">
+            Rozmiar: <b>@Html.DisplayFor(model => model.Wheel.Size)</b>
+        </div>
+    </div>
+</div>
+
