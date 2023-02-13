@@ -9,7 +9,7 @@ namespace BikeForSell.Domain.Interfaces
         Bike GetBikeDetails(int id);
         IQueryable GetYourBikesList(int id);
         void ChangeStatus(int id);
-        Bike GetBikeforEdit(int id);
+        Bike GetBikeForEdit(int id);
         void EditBike(Bike bike);
         void DeleteBike(int id);
         void BuyBike(Transaction transaction);
