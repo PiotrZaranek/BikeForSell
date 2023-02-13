@@ -157,7 +157,7 @@ namespace BikeForSell.Application.Services
 
         public BikeForEditVm GetBikeForEdit(int id)
         {
-            var bike = _bikeRepo.GetBikeforEdit(id);
+            var bike = _bikeRepo.GetBikeForEdit(id);
             var bikeVm = _mapper.Map<BikeForEditVm>(bike);
 
             return bikeVm;
