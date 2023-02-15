@@ -17,6 +17,7 @@ namespace BikeForSell.Application
             services.AddTransient<IBikeService, BikeService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<IProfileService, ProfileService>();
+            services.AddTransient<IUserService, UserService>();
             return services;
         }
     }
