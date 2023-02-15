@@ -23,7 +23,7 @@ namespace BikeForSell.Application.Services
             _mapper = mapper;
         }
 
-        public ListPurchaseForListVm GetListPurchases(int userId)
+        public ListPurchaseForListVm GetListPurchases(string userId)
         {
             var purchases = _profileRepo.GetListPurchase(userId)
                 .ProjectTo<TransactionForSalePurchaseListVm>(_mapper.ConfigurationProvider).ToList();
@@ -32,7 +32,7 @@ namespace BikeForSell.Application.Services
             {
                 Purchases = purchases,
                 Sieze = purchases.Count
-            };
+            };            
 
             return purchasesVm;
         }
@@ -42,7 +42,7 @@ namespace BikeForSell.Application.Services
             _profileRepo.DeletePurchase(id);
         }
 
-        public ListSaleForListVm GetListSales(int id)
+        public ListSaleForListVm GetListSales(string id)
         {
             var sales = _profileRepo.GetListSales(id)
                 .ProjectTo<TransactionForSalePurchaseListVm>(_mapper.ConfigurationProvider).ToList();
@@ -52,6 +52,8 @@ namespace BikeForSell.Application.Services
                 Sales = sales,
                 Size = sales.Count
             };
+
+            salesVm.Sales.OrderBy(x => x.Date);
 
             return salesVm;
         }
