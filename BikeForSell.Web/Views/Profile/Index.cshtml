@@ -13,8 +13,11 @@
 <div class="row justify-content-center">    
     <div class="col-lg-4 text-center">
         <img src="image/userImg.png" alt="User Image" class="profileImage shadow"/>
+        <div class="text-center mt-3 fs-5">
+            @User.Identity.Name
+        </div>
         <hr />
-        <a asp-controller="Profile" asp-action="Edit" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
             Edytuj Profil
         </a>
         <a asp-action="Purchase" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
@@ -30,7 +33,7 @@
         <a asp-controller="Bike" asp-action="YourBikes" class="col-lg-12 btn btn-lg btn-primary p-2 mb-3">
             Twoje Ogłoszenia
         </a>
-        <a asp-area="" asp-page="" class="col-lg-12 btn btn-lg btn-danger p-2 mb-3">
+        <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="col-lg-12 btn btn-lg btn-danger p-2 mb-3">
             Wyloguj się
         </a>
     </div>
