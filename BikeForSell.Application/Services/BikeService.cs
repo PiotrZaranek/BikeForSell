@@ -27,7 +27,7 @@ namespace BikeForSell.Application.Services
             _mapper = mapper;
         }
 
-        public int Add(NewBikeVm bikeVm, int id)
+        public int Add(NewBikeVm bikeVm, string id)
         {
             bikeVm.DetailInformation.Date = DateTime.Now;
             bikeVm.IsActive = true;
@@ -99,7 +99,7 @@ namespace BikeForSell.Application.Services
                 .Where(x => x.Prize >= prizeFrom)
                 .Where(x => x.Prize <= prizeTo)
                 .Where(x => x.Type.StartsWith(type))
-                .ToList();
+                .ToList();            
 
             switch (filter)
             {
@@ -136,10 +136,10 @@ namespace BikeForSell.Application.Services
             return bikeVm;
         }
 
-        public ListBiekForYourBikes GetYourBikesList(int id)
+        public ListBiekForYourBikes GetYourBikesList(string id)
         {
             var bikes = _bikeRepo.GetYourBikesList(id)
-                .ProjectTo<BikeForYourBikesVm>(_mapper.ConfigurationProvider).ToList();
+                .ProjectTo<BikeForYourBikesVm>(_mapper.ConfigurationProvider).ToList();            
 
             var bikeList = new ListBiekForYourBikes()
             {
@@ -175,17 +175,16 @@ namespace BikeForSell.Application.Services
             _bikeRepo.DeleteBike(id);
         }
 
-        public void BuyBike(int id, int buyerId)
+        public void BuyBike(int id, string buyerId)
         {
             var Transaction = new Transaction()
             {
                 BuyerId = buyerId,
                 Date = DateTime.Now,
-                State = 0,
-                BikeRef = id
+                State = 0,                
             };
 
-            _bikeRepo.BuyBike(Transaction);            
+            _bikeRepo.BuyBike(Transaction, id);       
         }
     }
 }
