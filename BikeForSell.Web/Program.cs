@@ -21,7 +21,7 @@ namespace BikeForSell.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Context>();
             builder.Services.AddControllersWithViews();
 
@@ -29,7 +29,16 @@ namespace BikeForSell.Web
             builder.Services.AddInfrastructure();
 
             //Injection from Appliacation
-            builder.Services.AddApplication();            
+            builder.Services.AddApplication();
+
+            builder.Services.AddAuthorization(options => {
+                options.AddPolicy("CanItemEdit", policy =>
+                {
+                    policy.RequireClaim("EditItem");
+                    policy.RequireClaim("ListItem");
+                    policy.RequireRole("Admin");
+                });
+            });
 
             var app = builder.Build();
 
@@ -55,7 +64,7 @@ namespace BikeForSell.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Bike}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();
