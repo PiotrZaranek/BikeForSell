@@ -12,8 +12,8 @@ namespace BikeForSell.Application.ViewModels.ProfileVm
     public class TransactionForSalePurchaseListVm : IMapFrom<Transaction>
     {
         public int Id { get; set; }
-        public int BuyerId { get; set; }
-        public int SalemanId { get; set; }
+        public string BuyerId { get; set; }
+        public string SalemanId { get; set; }
         public DateTime Date { get; set; }
         public int State { get; set; }
         public decimal Prize { get; set; }
