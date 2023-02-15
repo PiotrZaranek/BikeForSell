@@ -6,17 +6,9 @@
 }
 
 <div class="row d-flex justify-content-center mt-5">
-    <div class="col-lg-4 text-center">
-        <h1>OtoRower!</h1>
-        <hr />
-    </div>    
-</div>
-
-<div class="row d-flex justify-content-center">
     <div class="col-lg-4">
         <section>
-            <h4 class="text-center">Logowanie</h4>
-            <hr />
+            <h4 class="text-center display-5 mb-4">Logowanie</h4>
             <form id="account" method="post">                
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
@@ -37,7 +29,7 @@
                 </div>
                 <div class="row">
                     <p>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Zaloguj</button>
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-success">Zaloguj</button>
                     </p>
                     <p>
                         <a asp-area="Identity" asp-page="/Account/Register" class="w-100 btn btn-lg btn-primary">Zarejestruj się</a>
@@ -45,7 +37,7 @@
                 </div>
                 <div>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="d-flex justify-content-center">Przypomnij Hasło</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="w-100 btn btn-lg btn-danger">Przypomnij Hasło</a>
                     </p>
                 </div>
             </form>
