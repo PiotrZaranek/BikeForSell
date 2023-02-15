@@ -5,17 +5,8 @@
 }
 
 <div class="row d-flex justify-content-center mt-5">
-    <div class="col-lg-4 text-center">
-        <h1>OtoRower!</h1>
-        <hr />
-    </div>    
-</div>
-
-
-<div class="row d-flex justify-content-center">
     <div class="col-lg-4">
-        <h4 class="text-center">Rejestracja</h4>
-        <hr />
+        <h4 class="text-center display-5 mb-4">Rejestracja</h4>
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">            
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -33,13 +24,12 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Załóż konto</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-success">Załóż konto</button>
         </form>
-        <hr />
-    </div>
-    <div class="text-center">        
-        <a asp-area="Identity" asp-page="/Account/Login">Logowanie</a>
-    </div>
+        <div class="text-center mt-2">
+            <a asp-area="Identity" asp-page="/Account/Login" class="w-100 btn btn-lg btn-primary">Logowanie</a>
+        </div>
+    </div>    
 </div>
 
 @section Scripts {
