@@ -22,9 +22,11 @@ namespace BikeForSell.Application.ViewModels.BikeVm
         public Wheel Wheel { get; set; } 
         public DetailInformation DetailInformation { get; set; }
 
+        public string CurrentUserId { get; set; }
+
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Bike, BikeForDetailsVm>();                
+            profile.CreateMap<Bike, BikeForDetailsVm>();
         }
     }
 }
