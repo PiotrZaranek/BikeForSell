@@ -18,9 +18,11 @@ namespace BikeForSell.Infrastructure.Repositories
             _context = context;
         }
 
-        public IQueryable GetListPurchase(int id)
+        public IQueryable GetListPurchase(string id)
         {
-            var puraches = _context.Transactions.Where(x => x.BuyerId == id);
+            var puraches = _context.Transactions.Where(x => x.BuyerId == id)
+                .OrderByDescending(d => d.Date);
+
             return puraches;
         }
 
@@ -30,7 +32,7 @@ namespace BikeForSell.Infrastructure.Repositories
 
             if(purchase != null)
             {
-                if(purchase.SalemanId == 0)
+                if(purchase.SalemanId == null)
                 {       
                     if(purchase.State != 2)
                     {
@@ -43,16 +45,18 @@ namespace BikeForSell.Infrastructure.Repositories
                 }
                 else
                 {
-                    purchase.BuyerId = 0;
+                    purchase.BuyerId = null;
                     _context.Transactions.Update(purchase);
                     _context.SaveChanges();
                 }                
             }
         }
 
-        public IQueryable GetListSales(int id)
+        public IQueryable GetListSales(string id)
         {
-            var sales = _context.Transactions.Where(x => x.SalemanId == id);
+            var sales = _context.Transactions.Where(x => x.SalemanId == id)
+                .OrderByDescending(d => d.Date);
+
             return sales;
         }
 
@@ -85,7 +89,7 @@ namespace BikeForSell.Infrastructure.Repositories
 
             if (sale != null)
             {
-                if(sale.BuyerId == 0)
+                if(sale.BuyerId == null)
                 {
                     if(sale.State != 2)
                     {
@@ -98,7 +102,7 @@ namespace BikeForSell.Infrastructure.Repositories
                 }
                 else
                 {
-                    sale.SalemanId = 0;
+                    sale.SalemanId = null;
                     _context.Transactions.Update(sale);
                     _context.SaveChanges();
                 }
