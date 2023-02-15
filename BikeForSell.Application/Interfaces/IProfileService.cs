@@ -10,9 +10,9 @@ namespace BikeForSell.Application.Interfaces
 {
     public interface IProfileService
     {
-        ListPurchaseForListVm GetListPurchases(int userId);
+        ListPurchaseForListVm GetListPurchases(string userId);
         void DeletePurchase(int id);
-        ListSaleForListVm GetListSales(int userId);
+        ListSaleForListVm GetListSales(string userId);
         void ChangeState(int saleId, int decision);
         void DeleteSale(int id);
     }
