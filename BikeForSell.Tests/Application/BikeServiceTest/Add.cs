@@ -13,20 +13,28 @@ using BikeForSell.Domain.Models;
 
 namespace BikeForSell.Tests.Application.BikeServiceTest
 {    
-    public class BikeServiceAdd
+    public class Add
     {
         [Fact]
-        public void ReturnBikeObject()
+        public void ReturnBikeId()
         {
+            // Arrnge
             var repo = new Mock<IBikeRepository>();
-            var map = new Mock<IMapper>();
-            var bikeService = new BikeService(repo.Object, map.Object);
-            var bikeVm = new NewBikeVm();
+            var map = SetUp.AddMapper();            
+            var bikeService = new BikeService(repo.Object, map);
+
+            repo.Setup(a => a.Add(It.IsAny<Bike>())).Returns(1);
+
+            var bikeVm = new NewBikeVm();          
             bikeVm.DetailInformation = new DetailInformation();
 
-            var result = bikeService.Add(bikeVm, 1);
+            //Act
+            var result = bikeService.Add(bikeVm, "1");
 
-            result.Should().Be(0);
+            //Assert
+            result.Should().Be(1);
+            bikeVm.IsActive.Should().BeTrue();
+            bikeVm.IsBought.Should().BeFalse();
         }
     }
 }

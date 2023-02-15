@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BikeForSell.Tests.Application.BikeServiceTest
 {
-    public class BikeServiceGetBikeDetails
+    public class GetBikeDetails
     {
         [Fact]
         public void ReturnBikeForDetailVmObject()
@@ -23,12 +23,12 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             var repo = new Mock<IBikeRepository>();
             var map = SetUp.AddMapper();
 
-            repo.Setup(x => x.GetBikeDetails(1)).Returns(new Bike());
+            repo.Setup(x => x.GetBikeDetails(It.IsAny<int>())).Returns(new Bike());
 
             var ser = new BikeService(repo.Object, map);
 
             //Act
-            var result = ser.GetBikeDetails(1);
+            var result = ser.GetBikeDetails(It.IsAny<int>());
 
             //Assert
             result.Should().NotBeNull();
