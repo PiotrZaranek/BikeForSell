@@ -48,9 +48,11 @@ namespace BikeForSell.Infrastructure.Repositories
             return bike;
         }
 
-        public IQueryable GetYourBikesList(int id)
+        public IQueryable GetYourBikesList(string id)
         {
-            var bikes = _context.Bikes.Where(x => x.DetailInformation.UserRef == id);
+            var bikes = _context.Bikes.Where(x => x.DetailInformation.UserRef == id)
+                .Where(x => x.IsActive == true)
+                .Where(x => x.IsBought == false);
 
             return bikes;
         }        
@@ -106,15 +108,16 @@ namespace BikeForSell.Infrastructure.Repositories
 
         }
 
-        public void BuyBike(Transaction transaction)
+        public void BuyBike(Transaction transaction, int id)
         {
-            var bike = _context.Bikes.Find(transaction.BikeRef);
+            var bike = _context.Bikes.FirstOrDefault(x => x.Id == id);
 
             if(bike != null)
             {
-                bike.DetailInformation = _context.DetailInformations.FirstOrDefault(x => x.BikeRef == transaction.BikeRef);
+                bike.DetailInformation = _context.DetailInformations.FirstOrDefault(x => x.BikeRef == id);
                 bike.IsBought = true;
                 transaction.SalemanId = bike.DetailInformation.UserRef;
+                transaction.BikeRef = bike.Id;
                 _context.Transactions.Add(transaction);
                 _context.Bikes.Update(bike);
                 _context.SaveChanges();
