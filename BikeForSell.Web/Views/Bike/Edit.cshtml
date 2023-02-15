@@ -168,7 +168,7 @@
                     <input asp-for="@Model.Wheel.Tyres" class="form-control" placeholder="Opony" />
                 </div>
                 <div class="col-lg-6">
-                    <input asp-for="@Model.Wheel.Size" class="form-control" placeholder="Rozmiar" />
+                    <input type="number" asp-for="@Model.Wheel.Size" class="form-control" placeholder="Rozmiar" />
                 </div>
                 <input type="hidden" asp-for="@Model.Wheel.Bike" />
                 <input type="hidden" asp-for="@Model.Wheel.Id" />
