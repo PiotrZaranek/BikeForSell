@@ -8,9 +8,9 @@ namespace BikeForSell.Domain.Interfaces
 {
     public interface IProfileRepository
     {
-        IQueryable GetListPurchase(int id);
+        IQueryable GetListPurchase(string id);
         void DeletePurchase(int id);
-        IQueryable GetListSales(int id);
+        IQueryable GetListSales(string id);
         void ChangeState(int salesId, int decision);
         void DeleteSale(int id);
     }
