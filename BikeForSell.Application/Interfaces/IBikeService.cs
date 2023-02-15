@@ -11,15 +11,15 @@ namespace BikeForSell.Application.Interfaces
 {
     public interface IBikeService
     {
-        int Add(NewBikeVm bikeVm, int id);
+        int Add(NewBikeVm bikeVm, string id);
         ListBikeForListVm GetBikeList();
         ListBikeForListVm GetBikeList(string searchString, int prizeFrom, int prizeTo, string type, int filter);
         BikeForDetailsVm GetBikeDetails(int id);
-        ListBiekForYourBikes GetYourBikesList(int id);
+        ListBiekForYourBikes GetYourBikesList(string id);
         void ChangeStatus(int id);
         BikeForEditVm GetBikeForEdit(int id);
         void EditBike(BikeForEditVm bikeVm);
         void DeleteBike(int id);
-        void BuyBike(int id, int buyerId);
+        void BuyBike(int id, string buyerId);
     }
 }
