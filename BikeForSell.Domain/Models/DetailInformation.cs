@@ -9,7 +9,7 @@ namespace BikeForSell.Domain.Models
     public class DetailInformation
     {
         public int Id { get; set; }
-        public int UserRef { get; set; }
+        public string UserRef { get; set; }
         public string NameSalesman { get; set; }
         public string LastNameSalesman { get; set; }
         public decimal Prize { get; set; }
