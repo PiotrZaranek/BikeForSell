@@ -1,18 +1,22 @@
 ﻿using AutoMapper;
 using BikeForSell.Application.Interfaces;
 using BikeForSell.Application.ViewModels.BikeVm;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
 namespace BikeForSell.Web.Controllers
 {
+    [Authorize]
     public class BikeController : Controller
     {
         private readonly IBikeService _bikeService;
+        private readonly IUserService _userService;
 
-        public BikeController(IBikeService bikeService)
+        public BikeController(IBikeService bikeService, IUserService userService)
         {
             _bikeService = bikeService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -35,6 +39,7 @@ namespace BikeForSell.Web.Controllers
         public IActionResult DetailsForIndex(int id)
         {
             var model = _bikeService.GetBikeDetails(id);
+            model.CurrentUserId = _userService.GetUserId();
             return View(model);
         }
 
@@ -48,8 +53,7 @@ namespace BikeForSell.Web.Controllers
         [HttpGet]
         public IActionResult YourBikes()
         {
-            const int id = 1;
-
+            string id = _userService.GetUserId();
             var model = _bikeService.GetYourBikesList(id);
             return View(model);
         }
@@ -64,9 +68,9 @@ namespace BikeForSell.Web.Controllers
         [HttpPost]
         public IActionResult Add(NewBikeVm newBike)
         {
-            const int id = 1;
+            string id = _userService.GetUserId();            
+            _bikeService.Add(newBike, id);
 
-            _bikeService.Add(newBike, id); // id uzytkwnika
             return RedirectToAction("YourBikes");
         }
 
@@ -98,9 +102,9 @@ namespace BikeForSell.Web.Controllers
 
         public IActionResult Buy(int id)
         {
-            const int userId = 1; // Id kupującego
-
+            string userId = _userService.GetUserId(); 
             _bikeService.BuyBike(id, userId);
+
             return RedirectToAction("Purchase", "Profile");
         }
     }
