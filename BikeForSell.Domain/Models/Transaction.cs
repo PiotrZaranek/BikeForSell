@@ -9,8 +9,8 @@ namespace BikeForSell.Domain.Models
     public class Transaction
     {
         public int Id { get; set; }
-        public int BuyerId { get; set; }
-        public int SalemanId { get; set; }
+        public string? BuyerId { get; set; }
+        public string? SalemanId { get; set; }
         public DateTime Date { get; set; }
         public int State { get; set; }
 
