@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BikeForSell.Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +15,9 @@ namespace BikeForSell.Domain.Interfaces
         IQueryable GetListSales(string id);
         void ChangeState(int salesId, int decision);
         void DeleteSale(int id);
+        bool UserDetalInformation(string id);
+        ApplicationUser GetUser(string id);
+        void AddDetalInfroamtion(ApplicationUser user, IdentityUserRole<string> newRole);
+        void EditDetalInformation(ApplicationUser user);
     }
 }
