@@ -1,26 +1,34 @@
-﻿using BikeForSell.Web.Models;
+﻿using BikeForSell.Domain.Models;
+using BikeForSell.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace BikeForSell.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        
+        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager)
         {
             _logger = logger;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            if(_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Index", "Bike");
+            }
+            else
+            {
+                return View();
+            }           
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
