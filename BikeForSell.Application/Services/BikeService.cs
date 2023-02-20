@@ -27,14 +27,14 @@ namespace BikeForSell.Application.Services
             _mapper = mapper;
         }
 
-        public int Add(NewBikeVm bikeVm, string id)
+        public int Add(NewBikeVm bikeVm, ApplicationUser user)
         {
-            bikeVm.DetailInformation.Date = DateTime.Now;
             bikeVm.IsActive = true;
             bikeVm.IsBought = false;
-            bikeVm.DetailInformation.NameSalesman = "Jan"; // Imie Użytkownika
-            bikeVm.DetailInformation.LastNameSalesman = "Kowalski"; // Nazwisko Użytkownika
-            bikeVm.DetailInformation.UserRef = id;
+
+            bikeVm.DetailInformation.Date = DateTime.Now;
+            bikeVm.DetailInformation.UserRef = user.Id;
+            bikeVm.DetailInformation.User = user;
 
             var bike = _mapper.Map<Bike>(bikeVm);
             int idBike = _bikeRepo.Add(bike);
