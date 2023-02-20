@@ -1,0 +1,51 @@
+﻿@model BikeForSell.Application.ViewModels.ProfileVm.DetalInformationVm
+
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Ostatni Krok";
+}
+
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - OtoRower</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BikeForSell.Web.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="row d-flex justify-content-center">
+    <h1 class="display-6 text-center mt-5">Ostati krok!</h1>
+    <p class="text-center fs-5">Podaj swoje dane aby ułatwić kontakt ze sprzedawcą lub kupującym.</p> 
+    <div class="col-md-4 shadow rounded p-3">
+        <form asp-action="AddDetalInformation">
+            <input type="hidden" asp-for="Id" value="a"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <input asp-for="FirsName" class="form-control form-control-lg" placeholder="Imię"/>
+                <span asp-validation-for="FirsName" class="text-danger mt-2"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="LastName" class="form-control form-control-lg" placeholder="Nazwisko" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <input type="hidden" class="form-check-input" asp-for="AddedDetalInformation" />
+            <div class="form-group mb-3">
+                <input id="phone" asp-for="PhoneNumber" class="form-control form-control-lg" placeholder="Numer tel."/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>                
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Dodaj informacje" class="btn btn-lg btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

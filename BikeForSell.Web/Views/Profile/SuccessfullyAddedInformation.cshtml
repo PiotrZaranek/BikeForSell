@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Udało się";
+}
+
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] - OtoRower</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-lg-6 p-3 rounded shadow text-center">
+            <h3>Udało się</h3>
+            <p>Poprawnie podałeś swoje dane! teraz wystarczy się przelogować.</p>
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-lg btn-dark">Zaloguj ponownie</a>
+        </div>
+    </div>
+</body>
+</html>
