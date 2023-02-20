@@ -29,7 +29,12 @@
         </div>
         <div class="col-lg-6 text-end">
             <h5>Sprzedający</h5>
-            @Html.DisplayFor(model => model.DetailInformation.NameSalesman) @Html.DisplayFor(model => model.DetailInformation.LastNameSalesman) <br />           @Html.DisplayFor(model => model.DetailInformation.City)
+            @Html.DisplayFor(model => model.DetailInformation.User.FirsName)
+            @Html.DisplayFor(model => model.DetailInformation.User.LastName) |
+            @Html.DisplayFor(model => model.DetailInformation.City) <br />
+            <h5>Kontakt</h5>
+            @Html.DisplayFor(model => model.DetailInformation.User.PhoneNumber) <br />
+            @Html.DisplayFor(model => model.DetailInformation.User.Email)
         </div>
         <div class="col-lg-12">
             <h5>Opis</h5>
