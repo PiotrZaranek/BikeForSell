@@ -23,8 +23,8 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public IQueryable<Bike> GetAllActiveBikes()
         {
-            var bikes = _context.Bikes.Where(x => x.IsActive == true).Where(x => x.IsBought == false);
-            return bikes;
+            var bikes = _context.Bikes.Where(x => x.IsActive == true).Where(x => x.IsBought == false);            
+            return bikes;                                    
         }
 
         public int Add(Bike bike)
@@ -42,16 +42,17 @@ namespace BikeForSell.Infrastructure.Repositories
                 .Include(f => f.Frame)
                 .Include(d => d.Drive)
                 .Include(b => b.Brake)
-                .Include(w => w.Wheel)
-                .FirstOrDefault(k => k.Id == id);     
-            
+                .Include(w => w.Wheel)            
+                .First(k => k.Id == id);
+
+            bike.DetailInformation.User = _context.Users.First(k => k.Id == bike.DetailInformation.UserRef);
+
             return bike;
         }
 
         public IQueryable GetYourBikesList(string id)
         {
             var bikes = _context.Bikes.Where(x => x.DetailInformation.UserRef == id)
-                .Where(x => x.IsActive == true)
                 .Where(x => x.IsBought == false);
 
             return bikes;
@@ -85,14 +86,16 @@ namespace BikeForSell.Infrastructure.Repositories
                 .Include(d => d.Drive)
                 .Include(b => b.Brake)
                 .Include(w => w.Wheel)
-                .FirstOrDefault(k => k.Id == id);
+                .First(k => k.Id == id);
+
+            bike.DetailInformation.User = _context.Users.First(k => k.Id == bike.DetailInformation.UserRef);
 
             return bike;
         }
 
         public void EditBike(Bike bike)
         {
-            _context.Bikes.Update(bike);
+            _context.Update(bike);
             _context.SaveChanges();
         }
 
@@ -110,11 +113,10 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public void BuyBike(Transaction transaction, int id)
         {
-            var bike = _context.Bikes.FirstOrDefault(x => x.Id == id);
+            var bike = _context.Bikes.Include(d => d.DetailInformation).FirstOrDefault(x => x.Id == id);
 
             if(bike != null)
-            {
-                bike.DetailInformation = _context.DetailInformations.FirstOrDefault(x => x.BikeRef == id);
+            {                
                 bike.IsBought = true;
                 transaction.SalemanId = bike.DetailInformation.UserRef;
                 transaction.BikeRef = bike.Id;
