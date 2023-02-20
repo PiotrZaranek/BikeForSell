@@ -11,7 +11,7 @@ namespace BikeForSell.Application.Interfaces
 {
     public interface IBikeService
     {
-        int Add(NewBikeVm bikeVm, string id);
+        int Add(NewBikeVm bikeVm, ApplicationUser user);
         ListBikeForListVm GetBikeList();
         ListBikeForListVm GetBikeList(string searchString, int prizeFrom, int prizeTo, string type, int filter);
         BikeForDetailsVm GetBikeDetails(int id);
