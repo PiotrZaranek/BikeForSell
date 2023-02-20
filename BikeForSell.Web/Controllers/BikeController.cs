@@ -7,16 +7,18 @@ using System.Text.RegularExpressions;
 
 namespace BikeForSell.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Allowed")]
     public class BikeController : Controller
     {
         private readonly IBikeService _bikeService;
+        private readonly IProfileService _profileService;
         private readonly IUserService _userService;
 
-        public BikeController(IBikeService bikeService, IUserService userService)
+        public BikeController(IBikeService bikeService, IUserService userService, IProfileService profileService)
         {
             _bikeService = bikeService;
             _userService = userService;
+            _profileService = profileService;
         }
 
         [HttpGet]
@@ -39,7 +41,7 @@ namespace BikeForSell.Web.Controllers
         public IActionResult DetailsForIndex(int id)
         {
             var model = _bikeService.GetBikeDetails(id);
-            model.CurrentUserId = _userService.GetUserId();
+            model.CurrentUserId = _userService.GetUserId();            
             return View(model);
         }
 
@@ -68,8 +70,8 @@ namespace BikeForSell.Web.Controllers
         [HttpPost]
         public IActionResult Add(NewBikeVm newBike)
         {
-            string id = _userService.GetUserId();            
-            _bikeService.Add(newBike, id);
+            var user = _profileService.GetUser(_userService.GetUserId());        
+            _bikeService.Add(newBike, user);
 
             return RedirectToAction("YourBikes");
         }
