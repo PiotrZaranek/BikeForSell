@@ -29,12 +29,17 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             bikeVm.DetailInformation = new DetailInformation();
 
             //Act
-            var result = bikeService.Add(bikeVm, "1");
+            var result = bikeService.Add(bikeVm, AddUSer());
 
             //Assert
             result.Should().Be(1);
             bikeVm.IsActive.Should().BeTrue();
             bikeVm.IsBought.Should().BeFalse();
+        }
+
+        private static ApplicationUser AddUSer()
+        {
+            return new ApplicationUser() { Id = "a", Email = "b", PhoneNumber = "c", FirsName = "d", LastName = "e" };
         }
     }
 }
