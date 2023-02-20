@@ -4,6 +4,7 @@ using BikeForSell.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeForSell.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230218162708_NewPropertyDetalInformation")]
+    partial class NewPropertyDetalInformation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,19 +186,32 @@ namespace BikeForSell.Infrastructure.Migrations
                     b.Property<bool>("Delivery")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastNameSalesman")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameSalesman")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Prize")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserRef")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BikeRef")
-                        .IsUnique();
-
-                    b.HasIndex("UserRef")
                         .IsUnique();
 
                     b.ToTable("DetailInformations");
@@ -512,15 +528,7 @@ namespace BikeForSell.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BikeForSell.Domain.Models.ApplicationUser", "User")
-                        .WithOne("DetailInformation")
-                        .HasForeignKey("BikeForSell.Domain.Models.DetailInformation", "UserRef")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Bike");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BikeForSell.Domain.Models.Drive", b =>
@@ -615,12 +623,6 @@ namespace BikeForSell.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BikeForSell.Domain.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("DetailInformation")
                         .IsRequired();
                 });
 
