@@ -6,6 +6,7 @@ using BikeForSell.Application.Interfaces;
 using BikeForSell.Application.Services;
 using BikeForSell.Domain.Interfaces;
 using BikeForSell.Infrastructure.Repositories;
+using BikeForSell.Domain.Models;
 
 namespace BikeForSell.Web
 {
@@ -21,7 +22,7 @@ namespace BikeForSell.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Context>();
             builder.Services.AddControllersWithViews();
 
@@ -31,13 +32,9 @@ namespace BikeForSell.Web
             //Injection from Appliacation
             builder.Services.AddApplication();
 
-            builder.Services.AddAuthorization(options => {
-                options.AddPolicy("CanItemEdit", policy =>
-                {
-                    policy.RequireClaim("EditItem");
-                    policy.RequireClaim("ListItem");
-                    policy.RequireRole("Admin");
-                });
+            builder.Services.Configure<IdentityOptions>(options => 
+            { 
+                options.SignIn.RequireConfirmedAccount = false;
             });
 
             var app = builder.Build();
