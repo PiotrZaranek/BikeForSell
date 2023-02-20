@@ -1,5 +1,6 @@
 ﻿using AutoMapper.Configuration.Conventions;
 using BikeForSell.Application.ViewModels.ProfileVm;
+using BikeForSell.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,9 @@ namespace BikeForSell.Application.Interfaces
         ListSaleForListVm GetListSales(string userId);
         void ChangeState(int saleId, int decision);
         void DeleteSale(int id);
+        ApplicationUser GetUser(string id);
+        bool UserDetalInformation(string id);
+        void AddDetalInformation(DetalInformationVm model);
+        void EditDetalInformation(EditDetalInformationVm model);
     }
 }
