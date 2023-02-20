@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Conventions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,6 @@ namespace BikeForSell.Application.Interfaces
     public interface IUserService
     {
         string GetUserId();
+        void LogOutUser();
     }
 }
