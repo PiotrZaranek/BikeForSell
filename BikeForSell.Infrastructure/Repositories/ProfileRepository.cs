@@ -1,8 +1,12 @@
 ﻿using BikeForSell.Domain.Interfaces;
+using BikeForSell.Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,6 +111,35 @@ namespace BikeForSell.Infrastructure.Repositories
                     _context.SaveChanges();
                 }
             }
+        }
+
+        public bool UserDetalInformation(string id)
+        {
+            var user = _context.Users.Find(id);
+            bool lol = user.AddedDetalInformation;
+            return lol;
+        }
+
+        public ApplicationUser GetUser(string id)
+        {
+            return _context.Users.Find(id);
+        }
+
+        public void AddDetalInfroamtion(ApplicationUser user, IdentityUserRole<string> newRole)
+        {
+            _context.Users.Update(user);
+
+            var role = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
+            _context.UserRoles.Remove(role);
+            _context.UserRoles.Add(newRole);
+
+            _context.SaveChanges();
+        }
+
+        public void EditDetalInformation(ApplicationUser user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }
