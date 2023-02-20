@@ -5,7 +5,7 @@
 }
 
 <div class="text-end">
-    @if (Model.DetailInformation.UserRef == Model.CurrentUserId) // W miejscu jedynki będzie user Id!
+    @if (Model.DetailInformation.User.Id == Model.CurrentUserId) // W miejscu jedynki będzie user Id!
     {
         <a asp-action="YourBikes" class="btn btn-lg btn-primary">Twoje Ogłoszenia</a>
     }
@@ -14,7 +14,7 @@
 
 <h1 class="text-center mb-4">@Html.DisplayFor(model => model.Name)</h1>
 
-@if (Model.DetailInformation.UserRef != Model.CurrentUserId) // W miejscu jedynki będzie user Id!
+@if (Model.DetailInformation.User.Id != Model.CurrentUserId) // W miejscu jedynki będzie user Id!
 {
     <div class="mb-4">
         <a asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-lg btn-success">Kup za @Html.DisplayFor(model => model.DetailInformation.Prize)zł</a>
@@ -40,9 +40,12 @@
         </div>
         <div class="col-lg-6 text-end">
             <h5>Sprzedający</h5>
-            @Html.DisplayFor(model => model.DetailInformation.NameSalesman)
-            @Html.DisplayFor(model => model.DetailInformation.LastNameSalesman) <br />
-            @Html.DisplayFor(model => model.DetailInformation.City)
+            @Html.DisplayFor(model => model.DetailInformation.User.FirsName)
+            @Html.DisplayFor(model => model.DetailInformation.User.LastName) |
+            @Html.DisplayFor(model => model.DetailInformation.City) <br />
+            <h5>Kontakt</h5>
+            @Html.DisplayFor(model => model.DetailInformation.User.PhoneNumber) <br />
+            @Html.DisplayFor(model => model.DetailInformation.User.Email)
         </div>
         <div class="col-lg-12">
             <h5>Opis</h5>
