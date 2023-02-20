@@ -4,7 +4,7 @@ using BikeForSell.Domain.Models;
 
 namespace BikeForSell.Infrastructure
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Bike> Bikes { get; set; }
         public DbSet<Frame> Frames { get; set; }
@@ -57,6 +57,12 @@ namespace BikeForSell.Infrastructure
                 .HasOne(a => a.Transaction)
                 .WithOne(b => b.Bike)
                 .HasForeignKey<Transaction>(k => k.BikeRef);
+
+            // 1:1 DetalInfromation To ApplicationUser
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.DetailInformation)
+                .WithOne(b => b.User)
+                .HasForeignKey<DetailInformation>(k => k.UserRef);
         }
     }
 }
