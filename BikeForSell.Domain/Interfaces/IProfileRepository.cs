@@ -1,4 +1,5 @@
-﻿using BikeForSell.Domain.Models;
+﻿using BikeForSell.Domain.Enums;
+using BikeForSell.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace BikeForSell.Domain.Interfaces
         IQueryable GetListPurchase(string id);
         void DeletePurchase(int id);
         IQueryable GetListSales(string id);
-        void ChangeState(int salesId, int decision);
+        void ChangeState(int salesId, Decision decision);
         void DeleteSale(int id);
         bool UserDetalInformation(string id);
         ApplicationUser GetUser(string id);
