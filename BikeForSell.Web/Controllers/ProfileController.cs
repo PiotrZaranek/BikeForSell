@@ -1,4 +1,5 @@
 ﻿using AutoMapper.Configuration.Conventions;
+using BikeForSell.Domain.Enums;
 using BikeForSell.Application.Interfaces;
 using BikeForSell.Application.Services;
 using BikeForSell.Application.ViewModels.ProfileVm;
@@ -54,7 +55,7 @@ namespace BikeForSell.Web.Controllers
         }
 
         [Authorize(Roles = "Allowed")]
-        public IActionResult ChangeState(int saleId, int decision)
+        public IActionResult ChangeState(int saleId, Decision decision)
         {
             _profileService.ChangeState(saleId, decision);
             return RedirectToAction("Sales");
