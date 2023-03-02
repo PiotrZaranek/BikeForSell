@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BikeForSell.Application.Mapping;
+using BikeForSell.Domain.Enums;
 using BikeForSell.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace BikeForSell.Application.ViewModels.ProfileVm
         public string BuyerId { get; set; }
         public string SalemanId { get; set; }
         public DateTime Date { get; set; }
-        public int State { get; set; }
+        public State State { get; set; }
         public decimal Prize { get; set; }
         public string Name { get; set; }
         public int BikeRef { get; set; }
