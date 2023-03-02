@@ -1,4 +1,5 @@
-﻿@model BikeForSell.Application.ViewModels.ProfileVm.ListSaleForListVm
+﻿@using BikeForSell.Domain.Enums;
+@model BikeForSell.Application.ViewModels.ProfileVm.ListSaleForListVm
 
 @{
     ViewData["Title"] = "Twoje Sprzedaże";
@@ -29,10 +30,7 @@
         {
             <div class="col-lg-12 d-flex justify-content-center">
                 <div class="col-lg-6 shadow mt-4 p-4 rounded">
-                    @*<div>
-                        @Html.DisplayFor(modelItem => item.BuyerId) Chce kupić twój rower! // Dane kupującego!!!
-                    </div>*@
-                    @if(item.State != 0)
+                    @if(item.State != State.Wait)
                     {
                         <div class="text-end">
                             <a class="btn btn-close" asp-action="DeleteSale" asp-route-id="@item.Id"></a>
@@ -46,18 +44,18 @@
                         @Html.DisplayFor(modelItem => item.Date.Month) /
                         @Html.DisplayFor(modelItem => item.Date.Year)
                     </b>
-                    @if(item.State == 0)
+                    @if(item.State == State.Wait)
                     {
                         <div class="text-end">
                             <a class="btn btn-success" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="1">Zatwierdź</a>
-                            <a class="btn btn-danger" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="2">Odmów</a>
+                            <a class="btn btn-danger" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="0">Odmów</a>
                         </div>
                     }
                     else
                     {
                         <br />
                         <span>Sprzdaż: </span>
-                        @if (item.State == 1)
+                        @if (item.State == State.Sell)
                         {                         
                             <span class="text-success fw-bold">Zatwierdzona</span>
                         }

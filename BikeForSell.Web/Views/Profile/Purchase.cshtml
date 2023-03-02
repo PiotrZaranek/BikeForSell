@@ -1,4 +1,5 @@
-﻿@model BikeForSell.Application.ViewModels.ProfileVm.ListPurchaseForListVm;
+﻿@using BikeForSell.Domain.Enums;
+@model BikeForSell.Application.ViewModels.ProfileVm.ListPurchaseForListVm;
 
 @{
     ViewData["Title"] = "Zakupione";
@@ -27,14 +28,14 @@
         {
             <div class="col-lg-12 d-flex justify-content-center">                
                 <div class="col-lg-6 shadow mt-4 p-4 rounded">
-                    @if (item.State == 0)
+                    @if (item.State == State.Wait)
                     {
                         ViewData["State"] = "Oczekuje...";
                         ViewData["Color"] = "text-secondary";                        
                     }
                     else
                     {
-                        if (item.State == 1)
+                        if (item.State == State.Sell)
                         {
                             ViewData["State"] = "Zatwierdzona";
                             ViewData["Color"] = "text-success";    
