@@ -3,6 +3,7 @@ using AutoMapper.Configuration.Conventions;
 using AutoMapper.QueryableExtensions;
 using BikeForSell.Application.Interfaces;
 using BikeForSell.Application.ViewModels.ProfileVm;
+using BikeForSell.Domain.Enums;
 using BikeForSell.Domain.Interfaces;
 using BikeForSell.Domain.Models;
 using Microsoft.AspNetCore.Identity;
@@ -59,7 +60,7 @@ namespace BikeForSell.Application.Services
             return salesVm;
         }
 
-        public void ChangeState(int saleId, int decision)
+        public void ChangeState(int saleId, Decision decision)
         {
             _profileRepo.ChangeState(saleId, decision);
         }
