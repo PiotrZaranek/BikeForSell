@@ -1,5 +1,6 @@
 ﻿using BikeForSell.Domain.Interfaces;
 using BikeForSell.Domain.Models;
+using BikeForSell.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -36,9 +37,9 @@ namespace BikeForSell.Infrastructure.Repositories
 
             if(purchase != null)
             {
-                if(purchase.SalemanId == null)
+                if(purchase.SalemanId == "Deleted")
                 {       
-                    if(purchase.State != 2)
+                    if(purchase.State != State.Refusal)
                     {
                         var bike = _context.Bikes.Find(purchase.BikeRef);
                         _context.Bikes.Remove(bike);
@@ -49,7 +50,7 @@ namespace BikeForSell.Infrastructure.Repositories
                 }
                 else
                 {
-                    purchase.BuyerId = null;
+                    purchase.BuyerId = "Deleted";
                     _context.Transactions.Update(purchase);
                     _context.SaveChanges();
                 }                
@@ -64,25 +65,25 @@ namespace BikeForSell.Infrastructure.Repositories
             return sales;
         }
 
-        public void ChangeState(int saleId, int decision)
+        public void ChangeState(int saleId, Decision decision)
         {
             var transaction = _context.Transactions.Find(saleId);
             if(transaction != null)
             {
-                transaction.State = decision;
-                _context.Transactions.Update(transaction);
-
                 var bike = _context.Bikes.Find(transaction.BikeRef);
 
-                if (decision == 1)
-                {                    
-                    bike.IsActive = false;                        
+                if (decision == Decision.Positive)
+                {
+                    bike.IsActive = false;
+                    transaction.State = State.Sell;
                 }
                 else
                 {
                     bike.IsBought = false;
+                    transaction.State = State.Refusal;
                 }
 
+                _context.Transactions.Update(transaction);
                 _context.SaveChanges();
             }            
         }
@@ -93,9 +94,9 @@ namespace BikeForSell.Infrastructure.Repositories
 
             if (sale != null)
             {
-                if(sale.BuyerId == null)
+                if(sale.BuyerId == "Deleted")
                 {
-                    if(sale.State != 2)
+                    if(sale.State != State.Refusal)
                     {
                         var bike = _context.Bikes.Find(sale.BikeRef);
                         _context.Bikes.Remove(bike);
@@ -106,7 +107,7 @@ namespace BikeForSell.Infrastructure.Repositories
                 }
                 else
                 {
-                    sale.SalemanId = null;
+                    sale.SalemanId = "Deleted";
                     _context.Transactions.Update(sale);
                     _context.SaveChanges();
                 }
