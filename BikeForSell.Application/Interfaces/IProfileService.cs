@@ -13,13 +13,13 @@ namespace BikeForSell.Application.Interfaces
     public interface IProfileService
     {
         ListPurchaseForListVm GetListPurchases(string userId);
-        void DeletePurchase(int id);
+        void DeletePurchase(int purchaseId);
         ListSaleForListVm GetListSales(string userId);
-        void ChangeState(int saleId, Decision decision);
-        void DeleteSale(int id);
-        ApplicationUser GetUser(string id);
-        bool UserDetalInformation(string id);
-        void AddDetalInformation(DetalInformationVm model);
-        void EditDetalInformation(EditDetalInformationVm model);
+        void ChangeState(int saleId, Decision salesmanDecision);
+        void DeleteSale(int saleId);
+        ApplicationUser GetUser(string userId);
+        bool UserDetalInformation(string userId);
+        void AddDetalInformation(DetalInformationVm userDetalInformation);
+        void EditDetalInformation(EditDetalInformationVm userDetalInformation);
     }
 }
