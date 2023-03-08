@@ -84,7 +84,7 @@ namespace BikeForSell.Application.Services
         {
             var user = _profileRepo.GetUser(userDetalInformation.Id); 
             
-            AssigmentPropperties(user, userDetalInformation);
+            AssigmentProperties(user, userDetalInformation);
             user.AddedDetalInformation = true;
 
             var role = CreateRole(user.Id);
@@ -104,19 +104,19 @@ namespace BikeForSell.Application.Services
         public void EditDetalInformation(EditDetalInformationVm userDetalInformation)
         {
             var user = _profileRepo.GetUser(userDetalInformation.Id);
-            AssigmentPropperties(user, userDetalInformation);
+            AssigmentProperties(user, userDetalInformation);
 
             _profileRepo.EditDetalInformation(user);
         }
 
-        private void AssigmentPropperties(ApplicationUser user, DetalInformationVm information)
+        private void AssigmentProperties(ApplicationUser user, DetalInformationVm information)
         {
             user.FirsName = information.FirsName;
             user.LastName = information.LastName;
             user.PhoneNumber = information.PhoneNumber;
         }
 
-        private void AssigmentPropperties(ApplicationUser user, EditDetalInformationVm information)
+        private void AssigmentProperties(ApplicationUser user, EditDetalInformationVm information)
         {
             user.FirsName = information.FirsName;
             user.LastName = information.LastName;
