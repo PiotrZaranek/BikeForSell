@@ -47,7 +47,7 @@
                         }
                         
                         <div class="text-end">
-                            <a class="btn btn-lg btn-close" asp-action="DeletePurchase" asp-route-id="@item.Id"></a>
+                            <a class="btn btn-lg btn-close" asp-action="DeletePurchase" asp-route-purchaseId="@item.Id"></a>
                         </div>
                     }
 
@@ -62,7 +62,7 @@
                     <br />
                     Status Sprzedaży: <span class="fw-bold @ViewData["Color"]">@ViewData["State"]</span> 
                     <div class="text-end">
-                        <a class="btn btn-primary" asp-controller="Bike" asp-action="DetailsForPurchase" asp-route-id="@item.BikeRef">Szczegóły</a>
+                        <a class="btn btn-primary" asp-controller="Bike" asp-action="DetailsForPurchase" asp-route-bikeId="@item.BikeRef">Szczegóły</a>
                     </div>
                 </div>
             </div>
