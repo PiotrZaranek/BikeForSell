@@ -23,17 +23,17 @@ namespace BikeForSell.Infrastructure.Repositories
             _context = context;
         }
 
-        public IQueryable GetListPurchase(string id)
+        public IQueryable GetListPurchase(string userId)
         {
-            var puraches = _context.Transactions.Where(x => x.BuyerId == id)
+            var puraches = _context.Transactions.Where(x => x.BuyerId == userId)
                 .OrderByDescending(d => d.Date);
 
             return puraches;
         }
 
-        public void DeletePurchase(int id)
+        public void DeletePurchase(int purchaseId)
         {
-            var purchase = _context.Transactions.Find(id);
+            var purchase = _context.Transactions.Find(purchaseId);
 
             if(purchase != null)
             {
@@ -57,22 +57,23 @@ namespace BikeForSell.Infrastructure.Repositories
             }
         }
 
-        public IQueryable GetListSales(string id)
+        public IQueryable GetListSales(string userId)
         {
-            var sales = _context.Transactions.Where(x => x.SalemanId == id)
+            var sales = _context.Transactions
+                .Where(x => x.SalemanId == userId)
                 .OrderByDescending(d => d.Date);
 
             return sales;
         }
 
-        public void ChangeState(int saleId, Decision decision)
+        public void ChangeTransactionState(int saleId, Decision salesmanDecision)
         {
             var transaction = _context.Transactions.Find(saleId);
             if(transaction != null)
             {
                 var bike = _context.Bikes.Find(transaction.BikeRef);
 
-                if (decision == Decision.Positive)
+                if (salesmanDecision == Decision.Positive)
                 {
                     bike.IsActive = false;
                     transaction.State = State.Sell;
@@ -88,9 +89,9 @@ namespace BikeForSell.Infrastructure.Repositories
             }            
         }
 
-        public void DeleteSale(int id)
+        public void DeleteSale(int saleId)
         {
-            var sale = _context.Transactions.Find(id);
+            var sale = _context.Transactions.Find(saleId);
 
             if (sale != null)
             {
@@ -114,16 +115,16 @@ namespace BikeForSell.Infrastructure.Repositories
             }
         }
 
-        public bool UserDetalInformation(string id)
+        public bool UserDetalInformation(string userId)
         {
-            var user = _context.Users.Find(id);
-            bool lol = user.AddedDetalInformation;
-            return lol;
+            var user = _context.Users.Find(userId);
+            bool isAdded = user.AddedDetalInformation;
+            return isAdded;
         }
 
-        public ApplicationUser GetUser(string id)
+        public ApplicationUser GetUser(string userId)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Find(userId);
         }
 
         public void AddDetalInfroamtion(ApplicationUser user, IdentityUserRole<string> newRole)
