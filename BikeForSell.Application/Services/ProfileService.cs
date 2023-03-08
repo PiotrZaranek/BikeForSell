@@ -41,14 +41,14 @@ namespace BikeForSell.Application.Services
             return purchasesVm;
         }
         
-        public void DeletePurchase(int id)
+        public void DeletePurchase(int purchaseId)
         {
-            _profileRepo.DeletePurchase(id);
+            _profileRepo.DeletePurchase(purchaseId);
         }
 
-        public ListSaleForListVm GetListSales(string id)
+        public ListSaleForListVm GetListSales(string userId)
         {
-            var sales = _profileRepo.GetListSales(id)
+            var sales = _profileRepo.GetListSales(userId)
                 .ProjectTo<TransactionForSalePurchaseListVm>(_mapper.ConfigurationProvider).ToList();
 
             var salesVm = new ListSaleForListVm()
@@ -60,49 +60,67 @@ namespace BikeForSell.Application.Services
             return salesVm;
         }
 
-        public void ChangeState(int saleId, Decision decision)
+        public void ChangeState(int saleId, Decision salesmanDecision)
         {
-            _profileRepo.ChangeState(saleId, decision);
+            _profileRepo.ChangeTransactionState(saleId, salesmanDecision);
         }
 
-        public void DeleteSale(int id)
+        public void DeleteSale(int saleId)
         {
-            _profileRepo.DeleteSale(id);
+            _profileRepo.DeleteSale(saleId);
         }
 
-        public ApplicationUser GetUser(string id)
+        public ApplicationUser GetUser(string userId)
         {
-            return _profileRepo.GetUser(id);
+            return _profileRepo.GetUser(userId);
         }
 
-        public bool UserDetalInformation(string id)
+        public bool UserDetalInformation(string userId)
         {
-            return _profileRepo.UserDetalInformation(id);
+            return _profileRepo.UserDetalInformation(userId);
         }
 
-        public void AddDetalInformation(DetalInformationVm model)
+        public void AddDetalInformation(DetalInformationVm userDetalInformation)
         {
-            var user = _profileRepo.GetUser(model.Id);
-            user.PhoneNumber = model.PhoneNumber;
-            user.FirsName = model.FirsName;
-            user.LastName = model.LastName;
+            var user = _profileRepo.GetUser(userDetalInformation.Id); 
+            
+            AssigmentPropperties(user, userDetalInformation);
             user.AddedDetalInformation = true;
 
-            var role = new IdentityUserRole<string>();
-            role.UserId = user.Id;
-            role.RoleId = "Allowed";
+            var role = CreateRole(user.Id);
 
             _profileRepo.AddDetalInfroamtion(user, role);
         }
 
-        public void EditDetalInformation(EditDetalInformationVm model)
+        private IdentityUserRole<string> CreateRole(string userId)
         {
-            var user = _profileRepo.GetUser(model.Id);
-            user.FirsName = model.FirsName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
+            var newRole = new IdentityUserRole<string>();
+            newRole.UserId = userId;
+            newRole.RoleId = "Allowed";
+
+            return newRole;
+        }
+
+        public void EditDetalInformation(EditDetalInformationVm userDetalInformation)
+        {
+            var user = _profileRepo.GetUser(userDetalInformation.Id);
+            AssigmentPropperties(user, userDetalInformation);
 
             _profileRepo.EditDetalInformation(user);
+        }
+
+        private void AssigmentPropperties(ApplicationUser user, DetalInformationVm information)
+        {
+            user.FirsName = information.FirsName;
+            user.LastName = information.LastName;
+            user.PhoneNumber = information.PhoneNumber;
+        }
+
+        private void AssigmentPropperties(ApplicationUser user, EditDetalInformationVm information)
+        {
+            user.FirsName = information.FirsName;
+            user.LastName = information.LastName;
+            user.PhoneNumber = information.PhoneNumber;
         }
     }
 }
