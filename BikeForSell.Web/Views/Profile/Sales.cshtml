@@ -33,7 +33,7 @@
                     @if(item.State != State.Wait)
                     {
                         <div class="text-end">
-                            <a class="btn btn-close" asp-action="DeleteSale" asp-route-id="@item.Id"></a>
+                            <a class="btn btn-close" asp-action="DeleteSale" asp-route-saleId="@item.Id"></a>
                         </div>   
                     }                    
                     <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
@@ -47,8 +47,8 @@
                     @if(item.State == State.Wait)
                     {
                         <div class="text-end">
-                            <a class="btn btn-success" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="1">Zatwierdź</a>
-                            <a class="btn btn-danger" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-decision="0">Odmów</a>
+                            <a class="btn btn-success" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-salesmanDecision="1">Zatwierdź</a>
+                            <a class="btn btn-danger" asp-action="ChangeState" asp-route-saleId="@item.Id" asp-route-salesmanDecision="0">Odmów</a>
                         </div>
                     }
                     else
