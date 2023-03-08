@@ -10,12 +10,6 @@ namespace BikeForSell.Application.ViewModels.BikeVm
     {
         public List<BikeForListVm> Bikes { get; set; }
         public int Size { get; set; }
-
-        // filter
-        public string SearchString { get; set; }
-        public int PrizeFrom { get; set; }
-        public int PrizeTo { get; set; }
-        public string Type { get; set; }
-        public int Filter { get; set; }
+        public BikeFilterParameters BikeFilterParameters { get; set; }
     }
 }
