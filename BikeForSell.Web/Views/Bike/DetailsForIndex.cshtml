@@ -5,7 +5,7 @@
 }
 
 <div class="text-end">
-    @if (Model.DetailInformation.User.Id == Model.CurrentUserId) // W miejscu jedynki będzie user Id!
+    @if (Model.DetailInformation.User.Id == Model.CurrentUserId)
     {
         <a asp-action="YourBikes" class="btn btn-lg btn-primary">Twoje Ogłoszenia</a>
     }
@@ -14,10 +14,10 @@
 
 <h1 class="text-center mb-4">@Html.DisplayFor(model => model.Name)</h1>
 
-@if (Model.DetailInformation.User.Id != Model.CurrentUserId) // W miejscu jedynki będzie user Id!
+@if (Model.DetailInformation.User.Id != Model.CurrentUserId)
 {
     <div class="mb-4">
-        <a asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-lg btn-success">Kup za @Html.DisplayFor(model => model.DetailInformation.Prize)zł</a>
+        <a asp-action="Buy" asp-route-bikeId="@Model.Id" class="btn btn-lg btn-success">Kup za @Html.DisplayFor(model => model.DetailInformation.Prize)zł</a>
     </div>
 }
 
