@@ -11,13 +11,13 @@ namespace BikeForSell.Domain.Interfaces
 {
     public interface IProfileRepository
     {
-        IQueryable GetListPurchase(string id);
-        void DeletePurchase(int id);
-        IQueryable GetListSales(string id);
-        void ChangeState(int salesId, Decision decision);
-        void DeleteSale(int id);
-        bool UserDetalInformation(string id);
-        ApplicationUser GetUser(string id);
+        IQueryable GetListPurchase(string userId);
+        void DeletePurchase(int purchaseId);
+        IQueryable GetListSales(string userId);
+        void ChangeTransactionState(int saleId, Decision salesmanDecision);
+        void DeleteSale(int saleId);
+        bool UserDetalInformation(string userId);
+        ApplicationUser GetUser(string userId);
         void AddDetalInfroamtion(ApplicationUser user, IdentityUserRole<string> newRole);
         void EditDetalInformation(ApplicationUser user);
     }
