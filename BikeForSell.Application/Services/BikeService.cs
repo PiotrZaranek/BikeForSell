@@ -27,7 +27,7 @@ namespace BikeForSell.Application.Services
             _mapper = mapper;
         }
 
-        public int Add(NewBikeVm bikeVm, ApplicationUser user)
+        public int AddBike(NewBikeVm bikeVm, ApplicationUser user)
         {
             bikeVm.IsActive = true;
             bikeVm.IsBought = false;
@@ -50,58 +50,54 @@ namespace BikeForSell.Application.Services
             var bikesList = new ListBikeForListVm()
             {
                 Bikes = bikes,
-                Size = bikes.Count
+                Size = bikes.Count,
+                BikeFilterParameters = new BikeFilterParameters()
             };
 
             return bikesList;
         }
 
-        public ListBikeForListVm GetBikeList(string searchString, int prizeFrom, int prizeTo, string type, int filter)
+        public ListBikeForListVm GetBikeList(BikeFilterParameters bikeFilter)
         {
             var bikes = _bikeRepo.GetAllActiveBikes()
                 .ProjectTo<BikeForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            bikes = Filtering(bikes, searchString, prizeFrom, prizeTo, type, filter);
+            bikes = Filtering(bikes, bikeFilter);
 
             var bikesList = new ListBikeForListVm()
             {
                 Bikes = bikes,
                 Size = bikes.Count,
-
-                SearchString = searchString,
-                PrizeFrom = prizeFrom,
-                PrizeTo = prizeTo,
-                Type = type,
-                Filter = filter
+                BikeFilterParameters = bikeFilter               
             };
 
             return bikesList;
         }
 
-        private static List<BikeForListVm> Filtering(List<BikeForListVm> bikes, string searchString, int prizeFrom, int prizeTo, string type, int filter)
+        private static List<BikeForListVm> Filtering(List<BikeForListVm> bikes, BikeFilterParameters bikeFilters)
         {
-            if (searchString == null)
+            if (bikeFilters.SearchString == null)
             {
-                searchString = string.Empty;
+                bikeFilters.SearchString = string.Empty;
             }
 
-            if (prizeTo == 0)
+            if (bikeFilters.PrizeTo == 0)
             {
-                prizeTo = 999999;
+                bikeFilters.PrizeTo = 999999;
             }
 
-            if (type == null)
+            if (bikeFilters.Type == null)
             {
-                type = string.Empty;
+                bikeFilters.Type = string.Empty;
             }
 
-            bikes = bikes.Where(x => x.Name.StartsWith(searchString))
-                .Where(x => x.Prize >= prizeFrom)
-                .Where(x => x.Prize <= prizeTo)
-                .Where(x => x.Type.StartsWith(type))
+            bikes = bikes.Where(x => x.Name.StartsWith(bikeFilters.SearchString))
+                .Where(x => x.Prize >= bikeFilters.PrizeFrom)
+                .Where(x => x.Prize <= bikeFilters.PrizeTo)
+                .Where(x => x.Type.StartsWith(bikeFilters.Type))
                 .ToList();            
 
-            switch (filter)
+            switch (bikeFilters.Filter)
             {
                 case 1:
                     {
@@ -128,17 +124,17 @@ namespace BikeForSell.Application.Services
             return bikes;
         }
 
-        public BikeForDetailsVm GetBikeDetails(int id)
+        public BikeForDetailsVm GetBikeDetails(int bikeId)
         {
-            var bike = _bikeRepo.GetBikeDetails(id);
+            var bike = _bikeRepo.GetBikeDetails(bikeId);
             var bikeVm = _mapper.Map<BikeForDetailsVm>(bike);
 
             return bikeVm;
         }
 
-        public ListBiekForYourBikes GetYourBikesList(string id)
+        public ListBiekForYourBikes GetYourBikesList(string userId)
         {
-            var bikes = _bikeRepo.GetYourBikesList(id)
+            var bikes = _bikeRepo.GetYourBikesList(userId)
                 .ProjectTo<BikeForYourBikesVm>(_mapper.ConfigurationProvider).ToList();            
 
             var bikeList = new ListBiekForYourBikes()
@@ -150,14 +146,14 @@ namespace BikeForSell.Application.Services
             return bikeList;
         }
 
-        public void ChangeStatus(int id)
+        public void ChangeStatus(int bikeId)
         {
-            _bikeRepo.ChangeStatus(id);
+            _bikeRepo.ChangeStatus(bikeId);
         }
 
-        public BikeForEditVm GetBikeForEdit(int id)
+        public BikeForEditVm GetBikeForEdit(int bikeId)
         {
-            var bike = _bikeRepo.GetBikeForEdit(id);
+            var bike = _bikeRepo.GetBikeForEdit(bikeId);
             var bikeVm = _mapper.Map<BikeForEditVm>(bike);
 
             return bikeVm;
@@ -170,12 +166,12 @@ namespace BikeForSell.Application.Services
             _bikeRepo.EditBike(bike);
         }
 
-        public void DeleteBike(int id )
+        public void DeleteBike(int bikeId)
         {
-            _bikeRepo.DeleteBike(id);
+            _bikeRepo.DeleteBike(bikeId);
         }
 
-        public void BuyBike(int id, string buyerId)
+        public void BuyBike(int bikeId, string buyerId)
         {
             var Transaction = new Transaction()
             {
@@ -184,7 +180,7 @@ namespace BikeForSell.Application.Services
                 State = 0,                
             };
 
-            _bikeRepo.BuyBike(Transaction, id);       
+            _bikeRepo.BuyBike(Transaction, bikeId);       
         }
     }
 }
