@@ -24,69 +24,69 @@ namespace BikeForSell.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var models = _bikeService.GetBikeList();
+            var bikeList = _bikeService.GetBikeList();
 
-            return View(models);
+            return View(bikeList);
         }
 
         [HttpPost]
-        public IActionResult Index(string searchString, int prizeFrom, int prizeTo, string type, int filter)
-        {
-            var models = _bikeService.GetBikeList(searchString, prizeFrom, prizeTo, type, filter);
+        public IActionResult Index(ListBikeForListVm model)
+        {            
+            var bikeList = _bikeService.GetBikeList(model.BikeFilterParameters);
 
-            return View(models);
+            return View(bikeList);
         }
 
         [HttpGet]        
-        public IActionResult DetailsForIndex(int id)
+        public IActionResult DetailsForIndex(int bikeId)
         {
-            var model = _bikeService.GetBikeDetails(id);
-            model.CurrentUserId = _userService.GetUserId();            
-            return View(model);
+            var bikeDetails = _bikeService.GetBikeDetails(bikeId);
+            bikeDetails.CurrentUserId = _userService.GetUserId();            
+            return View(bikeDetails);
         }
 
         [HttpGet]
-        public IActionResult DetailsForPurchase(int id)
+        public IActionResult DetailsForPurchase(int bikeId)
         {
-            var model = _bikeService.GetBikeDetails(id);
-            return View(model);
+            var bikeDetails = _bikeService.GetBikeDetails(bikeId);
+            return View(bikeDetails);
         }
 
         [HttpGet]
         public IActionResult YourBikes()
         {
-            string id = _userService.GetUserId();
-            var model = _bikeService.GetYourBikesList(id);
-            return View(model);
+            string userId = _userService.GetUserId();
+            var yourBikes = _bikeService.GetYourBikesList(userId);
+            return View(yourBikes);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
-            var model = new NewBikeVm();
-            return View(model);
+            var newBike = new NewBikeVm();
+            return View(newBike);
         }
 
         [HttpPost]
-        public IActionResult Add(NewBikeVm newBike)
+        public IActionResult Add(NewBikeVm newBikeVm)
         {
             var user = _profileService.GetUser(_userService.GetUserId());        
-            _bikeService.Add(newBike, user);
+            _bikeService.AddBike(newBikeVm, user);
 
             return RedirectToAction("YourBikes");
         }
 
-        public IActionResult ChangeStatus(int id)
+        public IActionResult ChangeStatus(int bikeId)
         {
-            _bikeService.ChangeStatus(id);
+            _bikeService.ChangeStatus(bikeId);
             return RedirectToAction("YourBikes");
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int bikeId)
         {
-            var model = _bikeService.GetBikeForEdit(id);
-            return View(model);
+            var bikeEdit = _bikeService.GetBikeForEdit(bikeId);
+            return View(bikeEdit);
         }
 
         [HttpPost]
@@ -96,9 +96,9 @@ namespace BikeForSell.Web.Controllers
             return RedirectToAction("YourBikes");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int bikeId)
         {
-            _bikeService.DeleteBike(id);
+            _bikeService.DeleteBike(bikeId);
             return RedirectToAction("YourBikes");
         }
 
