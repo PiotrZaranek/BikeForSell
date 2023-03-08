@@ -1,0 +1,54 @@
+﻿@model BikeForSell.Application.ViewModels.BikeVm.ListBikeForListVm
+
+<div class="row mb-3 mt-3">
+    <form method="post" id="filter">
+        <div class="row">
+            <div class="col-lg-5 mb-2">
+                <input asp-for="BikeFilterParameters.SearchString" type="text" class="form-control form-control-lg" placeholder="Nazwa" />
+            </div>
+            <div class="col-lg-1 mb-2 p-2 text-center">
+                <h5>Cena</h5>
+            </div>
+            <div class="col-lg-3 mb-2">
+                <input asp-for="BikeFilterParameters.PrizeFrom" type="number" class="form-control form-control-lg" />
+            </div>
+            <div class="col-lg-3 mb-2">
+                <input asp-for="BikeFilterParameters.PrizeTo" type="number" class="form-control form-control-lg" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 mb-2">
+                <select asp-for="BikeFilterParameters.Type" class="form-control form-control-lg">
+                    <option value="">Rodzaj</option>
+                    <option>XC</option>
+                    <option>Trail</option>
+                    <option>Enduro</option>
+                    <option>DownHill</option>
+                    <option>Szosowy</option>
+                    <option>Gravel</option>
+                    <option>Fitness</option>
+                    <option>Przełaj</option>
+                    <option>Triathlon</option>
+                    <option>Trekking</option>
+                    <option>Cross</option>
+                    <option>Miejski</option>
+                    <option>FatBike</option>
+                    <option>BMX</option>
+                    <option>Dirt/Street</option>
+                    <option>Trial</option>
+                </select>
+            </div>
+            <div class="col-lg-5 mb-2">
+                <select asp-for="BikeFilterParameters.Filter" class="form-control form-control-lg">
+                    <option value="0">Wybierz filtr</option>
+                    <option value="1">Najtańsze</option>
+                    <option value="2">Najdroższe</option>
+                    <option value="3">Najnowsze</option>
+                </select>
+            </div>
+            <div class="col-lg-2 mb-2">
+                <input type="submit" value="Zastosuj" class="w-100 btn btn-lg btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
