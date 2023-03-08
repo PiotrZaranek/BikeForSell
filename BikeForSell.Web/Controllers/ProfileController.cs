@@ -33,15 +33,15 @@ namespace BikeForSell.Web.Controllers
         [Authorize(Roles = "Allowed")]
         public IActionResult Purchase()
         {
-            string id = _userService.GetUserId();
-            var model = _profileService.GetListPurchases(id);
-            return View(model);
+            string userId = _userService.GetUserId();
+            var purchase = _profileService.GetListPurchases(userId);
+            return View(purchase);
         }
 
         [Authorize(Roles = "Allowed")]
-        public IActionResult DeletePurchase(int id)
+        public IActionResult DeletePurchase(int purchaseId)
         {
-            _profileService.DeletePurchase(id);
+            _profileService.DeletePurchase(purchaseId);
             return RedirectToAction("Purchase");
         }
 
@@ -49,31 +49,31 @@ namespace BikeForSell.Web.Controllers
         [Authorize(Roles = "Allowed")]
         public IActionResult Sales()
         {
-            string id = _userService.GetUserId();
-            var model = _profileService.GetListSales(id);
-            return View(model);
+            string userId = _userService.GetUserId();
+            var sales = _profileService.GetListSales(userId);
+            return View(sales);
         }
 
         [Authorize(Roles = "Allowed")]
-        public IActionResult ChangeState(int saleId, Decision decision)
+        public IActionResult ChangeState(int saleId, Decision salesmanDecision)
         {
-            _profileService.ChangeState(saleId, decision);
+            _profileService.ChangeState(saleId, salesmanDecision);
             return RedirectToAction("Sales");
         }
 
         [Authorize(Roles = "Allowed")]
-        public IActionResult DeleteSale(int id)
+        public IActionResult DeleteSale(int saleId)
         {
-            _profileService.DeleteSale(id);
+            _profileService.DeleteSale(saleId);
             return RedirectToAction("Sales");
         }
 
         [Authorize(Roles = "NotAllowed, Allowed")]        
         public IActionResult CheckUserDetalInformation()
         {
-            string id = _userService.GetUserId();
+            string userId = _userService.GetUserId();
 
-            if (_profileService.UserDetalInformation(id))
+            if (_profileService.UserDetalInformation(userId))
             {
                 return RedirectToAction("Index", "Bike");
             }
@@ -87,23 +87,23 @@ namespace BikeForSell.Web.Controllers
         [Authorize( Roles = "NotAllowed")]
         public IActionResult AddDetalInformation()
         {
-            var model = new DetalInformationVm();
-            return View(model);
+            var detalInformation = new DetalInformationVm();
+            return View(detalInformation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddDetalInformation(DetalInformationVm model)
+        public IActionResult AddDetalInformation(DetalInformationVm userDetalInformation)
         {
             if(ModelState.IsValid)
             {
-                model.Id = _userService.GetUserId();
-                _profileService.AddDetalInformation(model);             
+                userDetalInformation.Id = _userService.GetUserId();
+                _profileService.AddDetalInformation(userDetalInformation);             
                 return RedirectToAction("SuccessfullyAddedInformation");
             }
             else
             {
-                return View(model);
+                return View(userDetalInformation);
             }            
         }
 
@@ -126,16 +126,16 @@ namespace BikeForSell.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Allowed")]
-        public IActionResult EditDetalInformation(EditDetalInformationVm model)
+        public IActionResult EditDetalInformation(EditDetalInformationVm userDetalInformation)
         {
             if (ModelState.IsValid)
             {
-                _profileService.EditDetalInformation(model);
+                _profileService.EditDetalInformation(userDetalInformation);
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(model);
+                return View(userDetalInformation);
             }            
         }
     }
