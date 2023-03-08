@@ -30,9 +30,9 @@
                     </div>
                     <div class="col-lg-12 text-center">
                         <a asp-controller="Bike" asp-action="DetailsForIndex" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-primary">Szczegóły</a>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-success">Edytuj</a>
-                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-primary mt-3">Zmień status</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="col-lg-5 btn btn-lg btn-danger mt-3">Usuń</a>
+                        <a asp-action="Edit" asp-route-bikeId="@item.Id" class="col-lg-5 btn btn-lg btn-success">Edytuj</a>
+                        <a asp-action="ChangeStatus" asp-route-bikeId="@item.Id" class="col-lg-5 btn btn-lg btn-primary mt-3">Zmień status</a>
+                        <a asp-action="Delete" asp-route-bikeId="@item.Id" class="col-lg-5 btn btn-lg btn-danger mt-3">Usuń</a>
                     </div>
                 </div>
             </div>
