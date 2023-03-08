@@ -23,19 +23,22 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public IQueryable<Bike> GetAllActiveBikes()
         {
-            var bikes = _context.Bikes.Where(x => x.IsActive == true).Where(x => x.IsBought == false);            
+            var bikes = _context.Bikes
+                .Where(x => x.IsActive == true)
+                .Where(x => x.IsBought == false);            
+
             return bikes;                                    
         }
 
-        public int Add(Bike bike)
+        public int Add(Bike newBike)
         {
-            _context.Bikes.Add(bike);
+            _context.Bikes.Add(newBike);
             _context.SaveChanges();
 
-            return bike.Id;
+            return newBike.Id;
         }   
         
-        public Bike GetBikeDetails(int id)
+        public Bike GetBikeDetails(int bikeId)
         {
             var bike = _context.Bikes
                 .Include(d => d.DetailInformation)
@@ -43,24 +46,25 @@ namespace BikeForSell.Infrastructure.Repositories
                 .Include(d => d.Drive)
                 .Include(b => b.Brake)
                 .Include(w => w.Wheel)            
-                .First(k => k.Id == id);
+                .First(k => k.Id == bikeId);
 
             bike.DetailInformation.User = _context.Users.First(k => k.Id == bike.DetailInformation.UserRef);
 
             return bike;
         }
 
-        public IQueryable GetYourBikesList(string id)
+        public IQueryable GetYourBikesList(string userId)
         {
-            var bikes = _context.Bikes.Where(x => x.DetailInformation.UserRef == id)
+            var bikes = _context.Bikes
+                .Where(x => x.DetailInformation.UserRef == userId)
                 .Where(x => x.IsBought == false);
 
             return bikes;
         }        
 
-        public void ChangeStatus(int id)
+        public void ChangeStatus(int bikeId)
         {
-            var bike = _context.Bikes.FirstOrDefault(x => x.Id == id);
+            var bike = _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
 
             if(bike != null)
             {
@@ -78,7 +82,7 @@ namespace BikeForSell.Infrastructure.Repositories
             }            
         }
 
-        public Bike GetBikeForEdit(int id)
+        public Bike GetBikeForEdit(int bikeId)
         {
             var bike = _context.Bikes
                 .Include(d => d.DetailInformation)
@@ -86,7 +90,7 @@ namespace BikeForSell.Infrastructure.Repositories
                 .Include(d => d.Drive)
                 .Include(b => b.Brake)
                 .Include(w => w.Wheel)
-                .First(k => k.Id == id);
+                .First(k => k.Id == bikeId);
 
             bike.DetailInformation.User = _context.Users.First(k => k.Id == bike.DetailInformation.UserRef);
 
@@ -99,9 +103,9 @@ namespace BikeForSell.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteBike(int id)
+        public void DeleteBike(int bikeId)
         {
-            var bike = _context.Bikes.Find(id);
+            var bike = _context.Bikes.Find(bikeId);
 
             if(bike != null)
             {
@@ -111,9 +115,9 @@ namespace BikeForSell.Infrastructure.Repositories
 
         }
 
-        public void BuyBike(Transaction transaction, int id)
+        public void BuyBike(Transaction transaction, int bikeId)
         {
-            var bike = _context.Bikes.Include(d => d.DetailInformation).FirstOrDefault(x => x.Id == id);
+            var bike = _context.Bikes.Include(d => d.DetailInformation).FirstOrDefault(x => x.Id == bikeId);
 
             if(bike != null)
             {                
