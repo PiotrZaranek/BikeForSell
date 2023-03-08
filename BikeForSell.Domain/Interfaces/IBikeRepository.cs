@@ -5,13 +5,13 @@ namespace BikeForSell.Domain.Interfaces
     public interface IBikeRepository
     {
         IQueryable<Bike> GetAllActiveBikes();
-        int Add(Bike bike);
-        Bike GetBikeDetails(int id);
-        IQueryable GetYourBikesList(string id);
-        void ChangeStatus(int id);
-        Bike GetBikeForEdit(int id);
+        int Add(Bike newBike);
+        Bike GetBikeDetails(int bikeId);
+        IQueryable GetYourBikesList(string userId);
+        void ChangeStatus(int bikeId);
+        Bike GetBikeForEdit(int bikeId);
         void EditBike(Bike bike);
-        void DeleteBike(int id);
-        void BuyBike(Transaction transaction, int id);
+        void DeleteBike(int bikeId);
+        void BuyBike(Transaction transaction, int bikeId);
     }
 }
