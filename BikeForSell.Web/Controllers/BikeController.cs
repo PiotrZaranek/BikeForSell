@@ -102,10 +102,10 @@ namespace BikeForSell.Web.Controllers
             return RedirectToAction("YourBikes");
         }
 
-        public IActionResult Buy(int id)
+        public IActionResult Buy(int bikeId)
         {
             string userId = _userService.GetUserId(); 
-            _bikeService.BuyBike(id, userId);
+            _bikeService.BuyBike(bikeId, userId);
 
             return RedirectToAction("Purchase", "Profile");
         }
