@@ -25,9 +25,9 @@ namespace BikeForSell.Infrastructure.Repositories
         {
             var bikes = _context.Bikes
                 .Where(x => x.IsActive == true)
-                .Where(x => x.IsBought == false);            
+                .Where(x => x.IsBought == false);
 
-            return bikes;                                    
+            return bikes;
         }
 
         public int Add(Bike newBike)
@@ -36,53 +36,9 @@ namespace BikeForSell.Infrastructure.Repositories
             _context.SaveChanges();
 
             return newBike.Id;
-        }   
-        
-        public Bike GetBikeDetails(int bikeId)
-        {
-            var bike = _context.Bikes
-                .Include(d => d.DetailInformation)
-                .Include(f => f.Frame)
-                .Include(d => d.Drive)
-                .Include(b => b.Brake)
-                .Include(w => w.Wheel)            
-                .First(k => k.Id == bikeId);
-
-            bike.DetailInformation.User = _context.Users.First(k => k.Id == bike.DetailInformation.UserRef);
-
-            return bike;
         }
 
-        public IQueryable GetYourBikesList(string userId)
-        {
-            var bikes = _context.Bikes
-                .Where(x => x.DetailInformation.UserRef == userId)
-                .Where(x => x.IsBought == false);
-
-            return bikes;
-        }        
-
-        public void ChangeStatus(int bikeId)
-        {
-            var bike = _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
-
-            if(bike != null)
-            {
-                if(bike.IsActive)
-                {
-                    bike.IsActive = false;
-                }
-                else
-                {
-                    bike.IsActive = true;
-                }
-
-                _context.Bikes.Update(bike);
-                _context.SaveChanges();
-            }            
-        }
-
-        public Bike GetBikeForEdit(int bikeId)
+        public Bike GetBikeForDetailsOrEdit(int bikeId)
         {
             var bike = _context.Bikes
                 .Include(d => d.DetailInformation)
@@ -97,6 +53,25 @@ namespace BikeForSell.Infrastructure.Repositories
             return bike;
         }
 
+        public IQueryable GetYourBikesList(string userId)
+        {
+            var bikes = _context.Bikes
+                .Where(x => x.DetailInformation.UserRef == userId)
+                .Where(x => x.IsBought == false);
+
+            return bikes;
+        }
+
+        public void ChangeStatus(int bikeId)
+        {
+            var bike = GetBike(bikeId);
+
+            CheckAndChangeBikeIsActive(bike);
+
+            _context.Bikes.Update(bike);
+            _context.SaveChanges();
+        }
+
         public void EditBike(Bike bike)
         {
             _context.Update(bike);
@@ -105,29 +80,44 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public void DeleteBike(int bikeId)
         {
-            var bike = _context.Bikes.Find(bikeId);
+            var bike = GetBike(bikeId);
 
-            if(bike != null)
-            {
-                _context.Bikes.Remove(bike);
-                _context.SaveChanges();
-            }
-
+            _context.Bikes.Remove(bike);
+            _context.SaveChanges();
         }
 
         public void BuyBike(Transaction transaction, int bikeId)
         {
             var bike = _context.Bikes.Include(d => d.DetailInformation).FirstOrDefault(x => x.Id == bikeId);
 
-            if(bike != null)
-            {                
+            if (bike != null)
+            {
                 bike.IsBought = true;
                 transaction.SalemanId = bike.DetailInformation.UserRef;
                 transaction.BikeRef = bike.Id;
                 _context.Transactions.Add(transaction);
                 _context.Bikes.Update(bike);
                 _context.SaveChanges();
-            }            
+            }
+        }
+
+        // Private methods
+
+        private Bike GetBike(int bikeId)
+        {
+            return _context.Bikes.Find(bikeId);
+        }
+
+        private void CheckAndChangeBikeIsActive(Bike bike)
+        {
+            if (bike.IsActive)
+            {
+                bike.IsActive = false;
+            }
+            else
+            {
+                bike.IsActive = true;
+            }
         }
     }
 }
