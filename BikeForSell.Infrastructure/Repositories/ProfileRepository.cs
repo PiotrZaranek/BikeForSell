@@ -11,6 +11,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace BikeForSell.Infrastructure.Repositories
 {
@@ -25,7 +26,8 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public IQueryable GetListPurchase(string userId)
         {
-            var puraches = _context.Transactions.Where(x => x.BuyerId == userId)
+            var puraches = _context.Transactions
+                .Where(x => x.BuyerId == userId)
                 .OrderByDescending(d => d.Date);
 
             return puraches;
@@ -33,27 +35,15 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public void DeletePurchase(int purchaseId)
         {
-            var purchase = _context.Transactions.Find(purchaseId);
+            var purchase = GetTransaction(purchaseId);
 
-            if(purchase != null)
+            if (IsTransactionWasRemovedBySalesman(purchase))
             {
-                if(purchase.SalemanId == "Deleted")
-                {       
-                    if(purchase.State != State.Refusal)
-                    {
-                        var bike = _context.Bikes.Find(purchase.BikeRef);
-                        _context.Bikes.Remove(bike);
-                    }                    
-
-                    _context.Transactions.Remove(purchase);
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    purchase.BuyerId = "Deleted";
-                    _context.Transactions.Update(purchase);
-                    _context.SaveChanges();
-                }                
+                ChceckTransactionStateAndRemoveTransactionAndBike(purchase);
+            }
+            else
+            {
+                SetTransactionToRemovedByBuyer(purchase);
             }
         }
 
@@ -68,56 +58,40 @@ namespace BikeForSell.Infrastructure.Repositories
 
         public void ChangeTransactionState(int saleId, Decision salesmanDecision)
         {
-            var transaction = _context.Transactions.Find(saleId);
-            if(transaction != null)
+            var transaction = GetTransaction(saleId);
+
+            var bike = GetBike(transaction.BikeRef);
+
+            if (IsSalesmanDecisionPositive(salesmanDecision))
             {
-                var bike = _context.Bikes.Find(transaction.BikeRef);
+                SetBikeIsActiveAndTransactionState(bike, transaction);
+            }
+            else
+            {
+                SetBikeIsBoughtAndTransactionState(bike, transaction);
+            }
 
-                if (salesmanDecision == Decision.Positive)
-                {
-                    bike.IsActive = false;
-                    transaction.State = State.Sell;
-                }
-                else
-                {
-                    bike.IsBought = false;
-                    transaction.State = State.Refusal;
-                }
-
-                _context.Transactions.Update(transaction);
-                _context.SaveChanges();
-            }            
+            _context.Transactions.Update(transaction);
+            _context.SaveChanges();
         }
 
         public void DeleteSale(int saleId)
         {
-            var sale = _context.Transactions.Find(saleId);
+            var sale = GetTransaction(saleId);
 
-            if (sale != null)
+            if (IsTransactionWasRemovedByBuyer(sale))
             {
-                if(sale.BuyerId == "Deleted")
-                {
-                    if(sale.State != State.Refusal)
-                    {
-                        var bike = _context.Bikes.Find(sale.BikeRef);
-                        _context.Bikes.Remove(bike);
-                    }
-                    
-                    _context.Transactions.Remove(sale);
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    sale.SalemanId = "Deleted";
-                    _context.Transactions.Update(sale);
-                    _context.SaveChanges();
-                }
+                ChceckTransactionStateAndRemoveTransactionAndBike(sale);
+            }
+            else
+            {
+                SetTransactionToRemovedBySalesman(sale);
             }
         }
 
         public bool UserDetalInformation(string userId)
         {
-            var user = _context.Users.Find(userId);
+            var user = GetUser(userId);
             bool isAdded = user.AddedDetalInformation;
             return isAdded;
         }
@@ -130,11 +104,7 @@ namespace BikeForSell.Infrastructure.Repositories
         public void AddDetalInfroamtion(ApplicationUser user, IdentityUserRole<string> newRole)
         {
             _context.Users.Update(user);
-
-            var role = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
-            _context.UserRoles.Remove(role);
-            _context.UserRoles.Add(newRole);
-
+            SetNewUserRole(user, newRole);
             _context.SaveChanges();
         }
 
@@ -142,6 +112,97 @@ namespace BikeForSell.Infrastructure.Repositories
         {
             _context.Users.Update(user);
             _context.SaveChanges();
+        }
+
+        // Private methods
+
+        private Bike GetBike(int bikeId)
+        {
+            return _context.Bikes.Find(bikeId);
+        }
+        private Transaction GetTransaction(int idTransaction)
+        {
+            return _context.Transactions.Find(idTransaction);
+        }
+        private IdentityUserRole<string> GetRole(string userId) 
+        { 
+            return _context.UserRoles.FirstOrDefault(x => x.UserId == userId);
+        }
+
+        private bool IsTransactionWasRemovedBySalesman(Transaction transaction)
+        {
+            if (transaction.SalemanId == "Deleted")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool IsTransactionWasRemovedByBuyer(Transaction transaction)
+        {
+            if (transaction.BuyerId == "Deleted")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        private bool IsSalesmanDecisionPositive(Decision salesmanDecision)
+        {
+            if(salesmanDecision == Decision.Positive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void ChceckTransactionStateAndRemoveTransactionAndBike(Transaction transaction)
+        {
+            if (transaction.State == State.Sell)
+            {
+                var bike = GetBike(transaction.BikeRef);
+                _context.Bikes.Remove(bike);
+            }
+
+            _context.Transactions.Remove(transaction);
+            _context.SaveChanges();
+        }
+
+        private void SetTransactionToRemovedByBuyer(Transaction transaction)
+        {
+            transaction.BuyerId = "Deleted";
+            _context.Transactions.Update(transaction);
+            _context.SaveChanges();
+        }
+        private void SetTransactionToRemovedBySalesman(Transaction transaction)
+        {
+            transaction.SalemanId = "Deleted";
+            _context.Transactions.Update(transaction);
+            _context.SaveChanges();
+        }
+        private void SetBikeIsActiveAndTransactionState(Bike bike, Transaction transaction)
+        {
+            bike.IsActive = false;
+            transaction.State = State.Sell;
+        }
+        private void SetBikeIsBoughtAndTransactionState(Bike bike, Transaction transaction)
+        {
+            bike.IsBought = false;
+            transaction.State = State.Refusal;
+        }
+        private void SetNewUserRole(ApplicationUser user, IdentityUserRole<string> newRole)
+        {
+            var role = GetRole(user.Id);
+            _context.UserRoles.Remove(role);
+            _context.UserRoles.Add(newRole);
         }
     }
 }
