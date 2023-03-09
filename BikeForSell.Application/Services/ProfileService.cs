@@ -32,11 +32,7 @@ namespace BikeForSell.Application.Services
             var purchases = _profileRepo.GetListPurchase(userId)
                 .ProjectTo<TransactionForSalePurchaseListVm>(_mapper.ConfigurationProvider).ToList();
 
-            var purchasesVm = new ListPurchaseForListVm()
-            {
-                Purchases = purchases,
-                Sieze = purchases.Count
-            };            
+            var purchasesVm = CreateListPurchaseForListVm(purchases);
 
             return purchasesVm;
         }
@@ -51,11 +47,7 @@ namespace BikeForSell.Application.Services
             var sales = _profileRepo.GetListSales(userId)
                 .ProjectTo<TransactionForSalePurchaseListVm>(_mapper.ConfigurationProvider).ToList();
 
-            var salesVm = new ListSaleForListVm()
-            { 
-                Sales = sales,
-                Size = sales.Count
-            };
+            var salesVm = CreateListSaleForListVm(sales);
 
             return salesVm;
         }
@@ -85,20 +77,9 @@ namespace BikeForSell.Application.Services
             var user = _profileRepo.GetUser(userDetalInformation.Id); 
             
             AssigmentProperties(user, userDetalInformation);
-            user.AddedDetalInformation = true;
-
             var role = CreateRole(user.Id);
 
             _profileRepo.AddDetalInfroamtion(user, role);
-        }
-
-        private IdentityUserRole<string> CreateRole(string userId)
-        {
-            var newRole = new IdentityUserRole<string>();
-            newRole.UserId = userId;
-            newRole.RoleId = "Allowed";
-
-            return newRole;
         }
 
         public void EditDetalInformation(EditDetalInformationVm userDetalInformation)
@@ -109,13 +90,40 @@ namespace BikeForSell.Application.Services
             _profileRepo.EditDetalInformation(user);
         }
 
+        // Private methods
+
+        private ListPurchaseForListVm CreateListPurchaseForListVm(List<TransactionForSalePurchaseListVm> purchases)
+        {
+            return new ListPurchaseForListVm()
+            {
+                Purchases = purchases,
+                Sieze = purchases.Count
+            };
+        }
+        private ListSaleForListVm CreateListSaleForListVm(List<TransactionForSalePurchaseListVm> sales)
+        {
+            return new ListSaleForListVm()
+            {
+                Sales = sales,
+                Size = sales.Count
+            };
+        }
+        private IdentityUserRole<string> CreateRole(string userId)
+        {
+            var newRole = new IdentityUserRole<string>();
+            newRole.UserId = userId;
+            newRole.RoleId = "Allowed";
+
+            return newRole;
+        }
+
         private void AssigmentProperties(ApplicationUser user, DetalInformationVm information)
         {
             user.FirsName = information.FirsName;
             user.LastName = information.LastName;
             user.PhoneNumber = information.PhoneNumber;
+            user.AddedDetalInformation = true;
         }
-
         private void AssigmentProperties(ApplicationUser user, EditDetalInformationVm information)
         {
             user.FirsName = information.FirsName;
