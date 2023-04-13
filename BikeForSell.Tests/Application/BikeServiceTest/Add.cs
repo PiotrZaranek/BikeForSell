@@ -29,7 +29,7 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             bikeVm.DetailInformation = new DetailInformation();
 
             //Act
-            var result = bikeService.Add(bikeVm, AddUSer());
+            var result = bikeService.AddBike(bikeVm, AddUSer());
 
             //Assert
             result.Should().Be(1);
