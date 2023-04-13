@@ -8,6 +8,6 @@ namespace BikeForSell.Application.Interfaces
 {
     public interface IErrorService
     {
-        void LogError(Exception ex, string controller, string action, string userId);
+        void LogError(Exception ex, string userId);
     }
 }

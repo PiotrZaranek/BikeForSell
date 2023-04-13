@@ -17,21 +17,18 @@ namespace BikeForSell.Application.Services
             _logger = logger;
         }
 
-        public void LogError(Exception ex, string controller, string action, string userId)
+        public void LogError(Exception ex, string userId)
         {
             using FileStream fileStrem = File.Open(@$"Logs\Error-{DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss")}.txt", FileMode.Create, FileAccess.Write);
             using StreamWriter streamWriter = new StreamWriter(fileStrem);
 
-            streamWriter.WriteLine(DateTime.Now);
+            streamWriter.WriteLine(DateTime.Now + "\n");
+            streamWriter.WriteLine("UserId: " + userId);
             streamWriter.WriteLine("------------------------------");
             streamWriter.WriteLine("Source: " + ex.Source + "\n");
             streamWriter.WriteLine("Message: " + ex.Message + "\n");
             streamWriter.WriteLine("Trace:" + ex.StackTrace + "\n");
-            streamWriter.WriteLine("Target: " + ex.TargetSite);
-            streamWriter.WriteLine("------------------------------");
-            streamWriter.WriteLine("UserId: " + userId + "\n");
-            streamWriter.WriteLine("Controller: " + controller + "\n");
-            streamWriter.WriteLine("Action: " + action);            
+            streamWriter.WriteLine("Target: " + ex.TargetSite);                   
         }
     }
 }

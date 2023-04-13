@@ -35,7 +35,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
@@ -53,7 +53,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex) 
             {
-                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
 
@@ -72,7 +72,7 @@ namespace BikeForSell.Web.Controllers
             }            
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "DetailsForIndex", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
 
@@ -90,7 +90,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "DetailsForPurchase", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
@@ -108,7 +108,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
@@ -133,7 +133,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "Add", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }            
 
@@ -148,7 +148,7 @@ namespace BikeForSell.Web.Controllers
             }            
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "ChangeStatus", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
 
@@ -166,7 +166,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex) 
             {
-                _errorService.LogError(ex, "Bike", "Edit", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
@@ -182,7 +182,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex) 
             {
-                _errorService.LogError(ex, "Bike", "Edit", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
@@ -197,7 +197,7 @@ namespace BikeForSell.Web.Controllers
             }            
             catch (Exception ex) 
             {
-                _errorService.LogError(ex, "Bike", "Delete", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
 
@@ -214,7 +214,7 @@ namespace BikeForSell.Web.Controllers
             }
             catch (Exception ex)
             {
-                _errorService.LogError(ex, "Bike", "Buy", _userService.GetUserId());
+                _errorService.LogError(ex, _userService.GetUserId());
                 return RedirectToAction("Error");
             }
             
