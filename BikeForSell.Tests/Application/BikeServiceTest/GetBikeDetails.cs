@@ -23,7 +23,7 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             var repo = new Mock<IBikeRepository>();
             var map = SetUp.AddMapper();
 
-            repo.Setup(x => x.GetBikeDetails(It.IsAny<int>())).Returns(new Bike());
+            repo.Setup(x => x.GetBikeForDetailsOrEdit(It.IsAny<int>())).Returns(new Bike());
 
             var ser = new BikeService(repo.Object, map);
 

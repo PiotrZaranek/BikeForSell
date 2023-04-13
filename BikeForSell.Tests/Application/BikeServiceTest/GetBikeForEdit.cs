@@ -22,7 +22,7 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             var map = SetUp.AddMapper();
             var ser = new BikeService(repo.Object, map);
 
-            repo.Setup(x => x.GetBikeForEdit(It.IsAny<int>())).Returns(new Bike());
+            repo.Setup(x => x.GetBikeForDetailsOrEdit(It.IsAny<int>())).Returns(new Bike());
 
             //Act
             var result = ser.GetBikeForEdit(It.IsAny<int>());
