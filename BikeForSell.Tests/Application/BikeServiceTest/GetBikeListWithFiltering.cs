@@ -25,21 +25,26 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             List<Bike> bikes = new List<Bike>();
             IQueryable<Bike> list = bikes.AsQueryable();
 
+            var filter = new BikeFilterParameters()
+            {
+                SearchString = "abc",
+                PrizeFrom = 100,
+                PrizeTo = 500,
+                Type = "xyz",
+                Filter = 1
+            };
+
             repo.Setup(x => x.GetAllActiveBikes()).Returns(list);
 
             //Act
-            var result = ser.GetBikeList("abc", 100, 500, "xyz", 1);
+            var result = ser.GetBikeList(filter);
 
             //Assert
-            result.Should().NotBeNull();
-            result.Should().BeOfType<ListBikeForListVm>();
-            result.Bikes.Should().BeOfType<List<BikeForListVm>>();
-
-            result.SearchString.Should().Be("abc");
-            result.PrizeFrom.Should().Be(100);
-            result.PrizeTo.Should().Be(500);
-            result.Type.Should().Be("xyz");
-            result.Filter.Should().Be(1);
+            result.BikeFilterParameters.SearchString.Should().Be("abc");
+            result.BikeFilterParameters.PrizeFrom.Should().Be(100);
+            result.BikeFilterParameters.PrizeTo.Should().Be(500);
+            result.BikeFilterParameters.Type.Should().Be("xyz");
+            result.BikeFilterParameters.Filter.Should().Be(1);            
         }
     }
 }
