@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BikeForSell.Application.Interfaces;
+using BikeForSell.Application.Services;
 using BikeForSell.Application.ViewModels.BikeVm;
 using BikeForSell.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -27,15 +28,34 @@ namespace BikeForSell.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var bikeList = _bikeService.GetBikeList();
-
+            ListBikeForListVm bikeList;
+            try
+            {
+                bikeList = _bikeService.GetBikeList();
+            }
+            catch (Exception ex)
+            {
+                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                return RedirectToAction("Error");
+            }
+            
             return View(bikeList);
         }
 
         [HttpPost]
         public IActionResult Index(ListBikeForListVm model)
-        {            
-            var bikeList = _bikeService.GetBikeList(model.BikeFilterParameters);
+        {
+            ListBikeForListVm bikeList;
+
+            try
+            {
+                bikeList = _bikeService.GetBikeList(model.BikeFilterParameters);
+            }
+            catch (Exception ex) 
+            {
+                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                return RedirectToAction("Error");
+            }
 
             return View(bikeList);
         }
@@ -80,8 +100,18 @@ namespace BikeForSell.Web.Controllers
         [HttpGet]
         public IActionResult YourBikes()
         {
-            string userId = _userService.GetUserId();
-            var yourBikes = _bikeService.GetYourBikesList(userId);
+            ListBiekForYourBikes yourBikes;
+            try
+            {
+                string userId = _userService.GetUserId();
+                yourBikes = _bikeService.GetYourBikesList(userId);
+            }
+            catch (Exception ex)
+            {
+                _errorService.LogError(ex, "Bike", "Index", _userService.GetUserId());
+                return RedirectToAction("Error");
+            }
+            
             return View(yourBikes);
         }
 
