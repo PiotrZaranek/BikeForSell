@@ -1,4 +1,5 @@
-﻿using BikeForSell.Domain.Interfaces;
+﻿using BikeForSell.Domain.Exceptions;
+using BikeForSell.Domain.Interfaces;
 using BikeForSell.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -39,7 +40,7 @@ namespace BikeForSell.Infrastructure.Repositories
         }
 
         public Bike GetBikeForDetailsOrEdit(int bikeId)
-        {
+        {            
             var bike = _context.Bikes
                 .Include(d => d.DetailInformation)
                 .Include(f => f.Frame)
@@ -105,9 +106,17 @@ namespace BikeForSell.Infrastructure.Repositories
 
         private Bike GetBike(int bikeId)
         {
-            return _context.Bikes.Find(bikeId);
-        }
+            var bike = _context.Bikes.Find(bikeId);
 
+            if (bike == null)
+            {
+                throw new BikeNotFoundException();
+            }
+            else
+            {
+                return bike;
+            }            
+        }
         private void CheckAndChangeBikeIsActive(Bike bike)
         {
             if (bike.IsActive)
