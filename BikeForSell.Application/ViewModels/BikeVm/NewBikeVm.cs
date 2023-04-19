@@ -23,7 +23,7 @@ namespace BikeForSell.Application.ViewModels.BikeVm
         public Drive Drive { get; set; }
         public Brake Brake { get; set; }
         public Wheel Wheel { get; set; }
-        public DetailInformation DetailInformation { get; set; }
+        public BikeDetailInformation DetailInformation { get; set; }
 
         public void Mapping(Profile profile)
         {
