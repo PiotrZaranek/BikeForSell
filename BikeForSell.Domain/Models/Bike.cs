@@ -29,7 +29,7 @@ namespace BikeForSell.Domain.Models
         public Wheel Wheel { get; set; }
 
         // 1:1 DetailInfromation To Bike    
-        public DetailInformation DetailInformation { get; set; }
+        public BikeDetailInformation DetailInformation { get; set; }
 
         // 1:1 Transaction To Bike
         public Transaction Transaction { get; set; }
