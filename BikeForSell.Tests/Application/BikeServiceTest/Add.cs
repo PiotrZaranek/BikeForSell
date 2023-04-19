@@ -26,7 +26,7 @@ namespace BikeForSell.Tests.Application.BikeServiceTest
             repo.Setup(a => a.Add(It.IsAny<Bike>())).Returns(1);
 
             var bikeVm = new NewBikeVm();          
-            bikeVm.DetailInformation = new DetailInformation();
+            bikeVm.DetailInformation = new BikeDetailInformation();
 
             //Act
             var result = bikeService.AddBike(bikeVm, AddUSer());
