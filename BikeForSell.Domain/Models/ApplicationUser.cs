@@ -8,7 +8,7 @@ namespace BikeForSell.Domain.Models
         public string? LastName { get; set; }
         public bool AddedDetalInformation { get; set; }
 
-        // 1:1 DetalInformation to ApplicationUser
-        public DetailInformation DetailInformation { get; set; }
+        // 1:N DetalInformation to ApplicationUser
+        public ICollection<BikeDetailInformation> DetailInformation { get; set; }
     }
 }
