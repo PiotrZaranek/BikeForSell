@@ -11,7 +11,7 @@ namespace BikeForSell.Infrastructure
         public DbSet<Drive> Drives { get; set; }
         public DbSet<Brake> Brakes { get; set; }
         public DbSet<Wheel> Wheels { get; set; }
-        public DbSet<DetailInformation> DetailInformations { get; set; }
+        public DbSet<BikeDetailInformation> DetailInformations { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         public Context(DbContextOptions options) : base(options)
@@ -50,19 +50,13 @@ namespace BikeForSell.Infrastructure
             builder.Entity<Bike>()
                 .HasOne(a => a.DetailInformation)
                 .WithOne(b => b.Bike)
-                .HasForeignKey<DetailInformation>(k => k.BikeRef);
+                .HasForeignKey<BikeDetailInformation>(k => k.BikeRef);
 
             // 1:1 Transaction To Bike
             builder.Entity<Bike>()
                 .HasOne(a => a.Transaction)
                 .WithOne(b => b.Bike)
                 .HasForeignKey<Transaction>(k => k.BikeRef);
-
-            // 1:1 DetalInfromation To ApplicationUser
-            builder.Entity<ApplicationUser>()
-                .HasOne(a => a.DetailInformation)
-                .WithOne(b => b.User)
-                .HasForeignKey<DetailInformation>(k => k.UserRef);
         }
     }
 }
